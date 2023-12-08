@@ -2,7 +2,7 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow
 import pyqtgraph as pg
 
-from models.image_view import ImageViewPort
+from models.image_view_port import ImageViewPort
 
 uiclass, baseclass = pg.Qt.loadUiType("mainwindow.ui")
 
@@ -25,21 +25,25 @@ class MainWindow(uiclass, baseclass):
                 window=self,
                 image_original_viewer=self.image_original_1,
                 image_component_viewer=self.image_component_1,
+                mode_combo_box=self.image_combo_1,
             ),
             ImageViewPort(
                 window=self,
                 image_original_viewer=self.image_original_2,
                 image_component_viewer=self.image_component_2,
+                mode_combo_box=self.image_combo_2,
             ),
             ImageViewPort(
                 window=self,
                 image_original_viewer=self.image_original_3,
                 image_component_viewer=self.image_component_3,
+                mode_combo_box=self.image_combo_3,
             ),
             ImageViewPort(
                 window=self,
                 image_original_viewer=self.image_original_4,
                 image_component_viewer=self.image_component_4,
+                mode_combo_box=self.image_combo_4,
             ),
         ]
 
