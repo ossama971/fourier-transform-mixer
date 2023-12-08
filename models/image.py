@@ -1,35 +1,14 @@
-from PyQt6.QtCore import Qt, pyqtSlot
-from PyQt6.QtWidgets import QFileDialog
-from PyQt6.QtGui import QPixmap
-from utils.image_utils import grayscale_image
+import cv2
+import numpy as np
 
 
 class Image:
-    def __init__(self, window, image_original_viewer) -> None:
-        self.window = window
-        self.image_original_viewer = image_original_viewer
-        self._initialize_image_slots()
+    def __init__(self, file_name: str) -> None:
+        self.image_byte = cv2.cvtColor(cv2.imread(file_name), cv2.COLOR_BGR2GRAY)
+        self.image_array = cv2.transpose(self.image_byte)
 
-    def _initialize_image_slots(self):
-        self.image_original_viewer.mousePressEvent = self._open_image
-
-    @pyqtSlot()
-    def _open_image(self, event):
-        file_dialog = QFileDialog()
-        file_path, _ = file_dialog.getOpenFileName(
-            self.window, "Open Image", "", "Images (*.png *.jpg *.bmp *.gif)"
-        )
-
-        if file_path:
-            original_pixmap = QPixmap(file_path)
-
-            # Grayscale the image
-            grayscale_pixmap = grayscale_image(original_pixmap)
-
-            # Show the grey scaled image
-            self.image_original_viewer.setPixmap(
-                grayscale_pixmap.scaled(
-                    self.image_original_viewer.size(),
-                    # aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
-                )
-            )
+        self.dft = np.fft.fft2(self.image_byte)
+        self.real = np.real(self.dft)
+        self.imaginary = np.imag(self.dft)
+        self.magnitude = np.abs(self.dft)
+        self.phase = np.angle(np.fft.fftshift(self.dft))

@@ -36,7 +36,7 @@
          <widget class="QComboBox" name="image_combo_1"/>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="image_original_1">
+         <widget class="PlotWidget" name="image_original_1" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -54,24 +54,11 @@
             <width>200</width>
             <height>200</height>
            </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background: #393939
-;</string>
-          </property>
-          <property name="text">
-           <string>Add Image</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLabel" name="image_component_1">
+         <widget class="PlotWidget" name="image_component_1" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -89,16 +76,6 @@
             <width>200</width>
             <height>200</height>
            </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background: #393939;
-border: 1px solid #eeeeee;</string>
-          </property>
-          <property name="text">
-           <string/>
           </property>
          </widget>
         </item>
@@ -117,7 +94,7 @@ border: 1px solid #eeeeee;</string>
          <widget class="QComboBox" name="image_combo_2"/>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="image_original_3">
+         <widget class="PlotWidget" name="image_original_2" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -135,24 +112,11 @@ border: 1px solid #eeeeee;</string>
             <width>200</width>
             <height>200</height>
            </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background: #393939
-;</string>
-          </property>
-          <property name="text">
-           <string>Add Image</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLabel" name="image_component_3">
+         <widget class="PlotWidget" name="image_component_2" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -170,16 +134,6 @@ border: 1px solid #eeeeee;</string>
             <width>200</width>
             <height>200</height>
            </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background: #393939;
-border: 1px solid #eeeeee;</string>
-          </property>
-          <property name="text">
-           <string/>
           </property>
          </widget>
         </item>
@@ -201,7 +155,7 @@ border: 1px solid #eeeeee;</string>
          <widget class="QComboBox" name="image_combo_3"/>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="image_original_2">
+         <widget class="PlotWidget" name="image_original_3" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -219,24 +173,11 @@ border: 1px solid #eeeeee;</string>
             <width>200</width>
             <height>200</height>
            </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background: #393939
-;</string>
-          </property>
-          <property name="text">
-           <string>Add Image</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLabel" name="image_component_2">
+         <widget class="PlotWidget" name="image_component_3" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -254,16 +195,6 @@ border: 1px solid #eeeeee;</string>
             <width>200</width>
             <height>200</height>
            </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background: #393939;
-border: 1px solid #eeeeee;</string>
-          </property>
-          <property name="text">
-           <string/>
           </property>
          </widget>
         </item>
@@ -282,7 +213,7 @@ border: 1px solid #eeeeee;</string>
          <widget class="QComboBox" name="image_combo_4"/>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="image_original_4">
+         <widget class="PlotWidget" name="image_original_4" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -300,24 +231,11 @@ border: 1px solid #eeeeee;</string>
             <width>200</width>
             <height>200</height>
            </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background: #393939
-;</string>
-          </property>
-          <property name="text">
-           <string>Add Image</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLabel" name="image_component_4">
+         <widget class="PlotWidget" name="image_component_4" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -335,16 +253,6 @@ border: 1px solid #eeeeee;</string>
             <width>200</width>
             <height>200</height>
            </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background: #393939;
-border: 1px solid #eeeeee;</string>
-          </property>
-          <property name="text">
-           <string/>
           </property>
          </widget>
         </item>
@@ -366,7 +274,7 @@ border: 1px solid #eeeeee;</string>
         <item row="0" column="0">
          <widget class="QLabel" name="output_label_1">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -379,7 +287,7 @@ border: 1px solid #eeeeee;</string>
         <item row="0" column="1">
          <widget class="QLabel" name="output_label_2">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -621,6 +529,14 @@ border: 1px solid #eeeeee;</string>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header>pyqtgraph</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

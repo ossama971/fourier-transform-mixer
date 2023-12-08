@@ -1,16 +1,18 @@
 import sys
-from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
+import pyqtgraph as pg
 
-from models.image import Image
+from models.image_view import ImageViewPort
+
+uiclass, baseclass = pg.Qt.loadUiType("mainwindow.ui")
 
 
-class MainWindow(QMainWindow):
+class MainWindow(uiclass, baseclass):
     def __init__(self):
-        super(MainWindow, self).__init__()
+        super().__init__()
 
         # Window and UI configurations
-        uic.loadUi("mainwindow.ui", self)
+        self.setupUi(self)
         self.setWindowTitle("Fourier Transform Mixer")
         self.show()
 
@@ -19,10 +21,26 @@ class MainWindow(QMainWindow):
 
     def _initialize_image_viewers(self):
         self.images = [
-            Image(window=self, image_original_viewer=self.image_original_1),
-            Image(window=self, image_original_viewer=self.image_original_2),
-            Image(window=self, image_original_viewer=self.image_original_3),
-            Image(window=self, image_original_viewer=self.image_original_4),
+            ImageViewPort(
+                window=self,
+                image_original_viewer=self.image_original_1,
+                image_component_viewer=self.image_component_1,
+            ),
+            ImageViewPort(
+                window=self,
+                image_original_viewer=self.image_original_2,
+                image_component_viewer=self.image_component_2,
+            ),
+            ImageViewPort(
+                window=self,
+                image_original_viewer=self.image_original_3,
+                image_component_viewer=self.image_component_3,
+            ),
+            ImageViewPort(
+                window=self,
+                image_original_viewer=self.image_original_4,
+                image_component_viewer=self.image_component_4,
+            ),
         ]
 
 
