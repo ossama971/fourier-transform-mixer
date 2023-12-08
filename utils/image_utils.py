@@ -1,17 +1,23 @@
-from PyQt6.QtGui import QPixmap, QImage, QPainter
+import cv2
 
 
-def grayscale_image(original_pixmap):
-    # Convert the QPixmap to a QImage
-    original_image = original_pixmap.toImage()
+def resize_to_square(image):
+    # Get the dimensions of the original image
+    height, width = image.shape[:2]
 
-    # Convert the QImage to grayscale
-    grayscale_image = QImage(original_image.size(), QImage.Format.Format_Grayscale8)
-    painter = QPainter(grayscale_image)
-    painter.drawImage(0, 0, original_image)
-    painter.end()
+    # Calculate the center of the original image
+    center_x, center_y = width // 2, height // 2
 
-    # Convert the QImage back to a QPixmap
-    grayscale_pixmap = QPixmap.fromImage(grayscale_image)
+    # Determine the size of the square crop
+    square_size = min(width, height)
 
-    return grayscale_pixmap
+    # Calculate the cropping region
+    crop_x1 = center_x - square_size // 2
+    crop_y1 = center_y - square_size // 2
+    crop_x2 = crop_x1 + square_size
+    crop_y2 = crop_y1 + square_size
+
+    # Crop the image to the square shape
+    cropped_image = image[crop_y1:crop_y2, crop_x1:crop_x2]
+
+    return cropped_image

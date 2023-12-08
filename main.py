@@ -18,6 +18,7 @@ class MainWindow(uiclass, baseclass):
 
         # Initialize states, signals, and slots
         self._initialize_image_viewers()
+        self._initialize_slots()
 
     def _initialize_image_viewers(self):
         self.images = [
@@ -46,6 +47,13 @@ class MainWindow(uiclass, baseclass):
                 mode_combo_box=self.image_combo_4,
             ),
         ]
+
+    def _initialize_slots(self) -> None:
+        self.region_slider.valueChanged.connect(self._region_slider_value_changed)
+
+    def _region_slider_value_changed(self, value) -> None:
+        for image_view_port in self.images:
+            image_view_port.draw_region_square(scale=(value / 100))
 
 
 def main():

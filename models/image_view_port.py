@@ -37,6 +37,8 @@ class ImageViewPort:
         self.mode_combo_box = mode_combo_box
         for mode in ComponentViewMode:
             self.mode_combo_box.addItem(mode.name.capitalize())
+        self.component_result: np.ndarray
+        self.roi = None
 
         self._initialize_slots()
 
@@ -54,18 +56,35 @@ class ImageViewPort:
         self._render_component_for_current_image()
 
     def _render_component_for_current_image(self) -> None:
-        component_result: np.ndarray
         if self.component_viewer_mode == ComponentViewMode.MAGNITUDE:
-            component_result = 20 * np.log(self.image.magnitude.T)
+            self.component_result = 20 * np.log(self.image.magnitude.T)
         elif self.component_viewer_mode == ComponentViewMode.PHASE:
-            component_result = self.image.phase.T
+            self.component_result = self.image.phase.T
         elif self.component_viewer_mode == ComponentViewMode.REAL:
-            component_result = 20 * np.log(self.image.real.T)
+            self.component_result = 20 * np.log(self.image.real.T)
         elif self.component_viewer_mode == ComponentViewMode.IMAGINARY:
-            component_result = self.image.imaginary.T
+            self.component_result = self.image.imaginary.T
         else:
-            component_result = self.image.image_array
-        self.image_component_viewer.addItem(pg.ImageItem(component_result))
+            self.component_result = self.image.image_array
+        self.image_component_viewer.addItem(pg.ImageItem(self.component_result))
+        self.draw_region_square(scale=1.0)
+
+    def draw_region_square(self, scale: float) -> None:
+        if self.component_result.any():
+            image_width, image_height = self.component_result.shape[:2]
+            center_x = image_width // 2
+            center_y = image_height // 2
+            rect_width = image_height * scale
+            rect_height = image_width * scale
+            if self.roi != None:
+                self.image_component_viewer.removeItem(self.roi)
+
+            self.roi = pg.ROI(
+                [center_x - rect_width / 2, center_y - rect_height / 2],
+                [rect_width, rect_height],
+                pen=pg.mkPen("r", width=2),
+            )
+            self.image_component_viewer.addItem(self.roi)
 
     @pyqtSlot()
     def _open_image(self, _) -> None:
