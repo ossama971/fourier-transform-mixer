@@ -414,6 +414,13 @@
         <item row="0" column="1">
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>First Image</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QComboBox" name="image_1_output_2"/>
           </item>
           <item>
@@ -435,6 +442,12 @@
           </item>
           <item>
            <widget class="QSlider" name="image_1_output_2_slider">
+            <property name="maximum">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>10</number>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -444,6 +457,13 @@
         </item>
         <item row="1" column="0">
          <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Second Image</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QComboBox" name="image_2_output_1"/>
           </item>
@@ -466,6 +486,12 @@
           </item>
           <item>
            <widget class="QSlider" name="image_2_output_1_slider">
+            <property name="maximum">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>10</number>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -475,6 +501,13 @@
         </item>
         <item row="1" column="1">
          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Second Image</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QComboBox" name="image_2_output_2"/>
           </item>
@@ -497,6 +530,12 @@
           </item>
           <item>
            <widget class="QSlider" name="image_2_output_2_slider">
+            <property name="maximum">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>10</number>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -506,6 +545,13 @@
         </item>
         <item row="0" column="0">
          <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>First Image</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QComboBox" name="image_1_output_1"/>
           </item>
@@ -528,6 +574,12 @@
           </item>
           <item>
            <widget class="QSlider" name="image_1_output_1_slider">
+            <property name="maximum">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>10</number>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>

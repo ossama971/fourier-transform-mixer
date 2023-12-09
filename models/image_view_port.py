@@ -5,11 +5,11 @@ from PyQt6.QtWidgets import QFileDialog
 import pyqtgraph as pg
 from models.image import Image
 
-
 class ComponentViewMode(Enum):
     """
     Enum for different component view modes.
     """
+
 
     MAGNITUDE = 0
     PHASE = 1
@@ -76,7 +76,7 @@ class ImageViewPort:
             center_y = image_height // 2
             rect_width = image_height * scale
             rect_height = image_width * scale
-            if self.roi != None:
+            if self.roi is not None:
                 self.image_component_viewer.removeItem(self.roi)
 
             self.roi = pg.ROI(
@@ -96,3 +96,4 @@ class ImageViewPort:
         if file_path:
             self.image = Image(file_name=file_path)
             self._render_image()
+
