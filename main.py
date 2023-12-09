@@ -3,9 +3,9 @@ from PyQt6.QtWidgets import QApplication, QMainWindow
 import pyqtgraph as pg
 
 from models.image_view_port import ImageViewPort
-from models.mixer import OutputPanel, ImageNumber
+from models.mixer import OutputPanel
 
-uiclass, baseclass = pg.Qt.loadUiType("mainwindow.ui")
+uiclass, baseclass = pg.Qt.loadUiType("views/mainwindow.ui")
 
 
 class MainWindow(uiclass, baseclass):
@@ -52,24 +52,26 @@ class MainWindow(uiclass, baseclass):
 
     def _initialize_output_viewers(self):
         self.output_ports = [
-            OutputPanel(window=self,
-                        output_viewer=self.image_output_1,
-                        first_image_combo_box=self.image_1_output_1,
-                        second_image_combo_box=self.image_2_output_1,
-                        first_image_mode_compo_box=self.image_1_component_output_1,
-                        second_image_mode_compo_box=self.image_2_component_output_1,
-                        component1_weight_slider=self.image_1_output_1_slider,
-                        component2_weight_slider=self.image_2_output_1_slider
-                        ),
-            OutputPanel(window=self,
-                        output_viewer=self.image_output_2,
-                        first_image_combo_box=self.image_1_output_2,
-                        second_image_combo_box=self.image_2_output_2,
-                        first_image_mode_compo_box=self.image_1_component_output_2,
-                        second_image_mode_compo_box=self.image_2_component_output_2,
-                        component1_weight_slider=self.image_1_output_2_slider,
-                        component2_weight_slider=self.image_2_output_2_slider
-                        )
+            # OutputPanel(
+            #     window=self,
+            #     output_viewer=self.image_output_1,
+            #     first_image_combo_box=self.image_1_output_1,
+            #     second_image_combo_box=self.image_2_output_1,
+            #     first_image_mode_compo_box=self.image_1_component_output_1,
+            #     second_image_mode_compo_box=self.image_2_component_output_1,
+            #     component1_weight_slider=self.image_1_output_1_slider,
+            #     component2_weight_slider=self.image_2_output_1_slider,
+            # ),
+            # OutputPanel(
+            #     window=self,
+            #     output_viewer=self.image_output_2,
+            #     first_image_combo_box=self.image_1_output_2,
+            #     second_image_combo_box=self.image_2_output_2,
+            #     first_image_mode_compo_box=self.image_1_component_output_2,
+            #     second_image_mode_compo_box=self.image_2_component_output_2,
+            #     component1_weight_slider=self.image_1_output_2_slider,
+            #     component2_weight_slider=self.image_2_output_2_slider,
+            # ),
         ]
 
     def _initialize_slots(self) -> None:
@@ -87,16 +89,21 @@ class MainWindow(uiclass, baseclass):
         if self.image_1_output_1.currentText() == "Image1":
             if self.images[0].image is not None:
                 image_1 = self.images[0].image
-                print('image1')
+                print("image1")
 
         if self.image_2_output_1.currentText() == "Image2":
             if self.images[0].image is not None:
                 image_2 = self.images[1].image
-                print('image2')
+                print("image2")
 
-        if self.image_1_component_output_1.currentText() == 'Magnitude' and self.image_2_component_output_1.currentText() == 'Phase':
-            print('mixing')
-            OutputPanel.reconstruct_image_using_magnitude_phase(self.output_ports[0], image_1, image_2)
+        if (
+            self.image_1_component_output_1.currentText() == "Magnitude"
+            and self.image_2_component_output_1.currentText() == "Phase"
+        ):
+            print("mixing")
+            OutputPanel.reconstruct_image_using_magnitude_phase(
+                self.output_ports[0], image_1, image_2
+            )
 
 
 def main():
