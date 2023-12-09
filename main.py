@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow
 import pyqtgraph as pg
 
 from models.image_view_port import ImageViewPort
+from models.mixer import OutputPanel
 
 uiclass, baseclass = pg.Qt.loadUiType("mainwindow.ui")
 
@@ -18,6 +19,7 @@ class MainWindow(uiclass, baseclass):
 
         # Initialize states, signals, and slots
         self._initialize_image_viewers()
+        self._initialize_output_viewers()
         self._initialize_slots()
 
     def _initialize_image_viewers(self):
@@ -46,6 +48,28 @@ class MainWindow(uiclass, baseclass):
                 image_component_viewer=self.image_component_4,
                 mode_combo_box=self.image_combo_4,
             ),
+        ]
+
+    def _initialize_output_viewers(self):
+        self.output_ports = [
+            OutputPanel(window=self,
+                        output_viewer=self.image_output_1,
+                        first_image=self.image_1_output_1,
+                        second_image=self.image_2_output_1,
+                        first_image_mode_compo_box=self.image_1_component_output_1,
+                        second_image_mode_compo_box=self.image_2_component_output_1,
+                        component1_weight_slider=self.image_1_output_1_slider,
+                        component2_weight_slider=self.image_2_output_1_slider
+                        ),
+            OutputPanel(window=self,
+                        output_viewer=self.image_output_2,
+                        first_image=self.image_1_output_2,
+                        second_image=self.image_2_output_2,
+                        first_image_mode_compo_box=self.image_1_component_output_2,
+                        second_image_mode_compo_box=self.image_2_component_output_2,
+                        component1_weight_slider=self.image_1_output_2_slider,
+                        component2_weight_slider=self.image_2_output_2_slider
+                        )
         ]
 
     def _initialize_slots(self) -> None:
