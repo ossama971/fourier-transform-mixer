@@ -1,4 +1,18 @@
+from enum import Enum
+
 from models.image_view_port import ComponentViewMode
+
+
+class ImageNumber(Enum):
+    """
+    Enum for different component view modes.
+    """
+
+    Image1 = 0
+    Image2 = 1
+    Image3 = 2
+    Image4 = 3
+
 
 
 class OutputPanel:
@@ -16,6 +30,10 @@ class OutputPanel:
         for mode in ComponentViewMode:
             self.first_image_mode_compo_box.addItem(mode.name.capitalize())
             self.second_image_mode_compo_box.addItem(mode.name.capitalize())
+
+        for image in ImageNumber:
+            self.first_image.addItem(image.name.capitalize())
+            self.second_image.addItem(image.name.capitalize())
         self._initialize_slots()
 
     def _initialize_slots(self) -> None:
