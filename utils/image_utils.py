@@ -1,6 +1,3 @@
-import cv2
-
-
 def resize_to_square(image):
     # Get the dimensions of the original image
     height, width = image.shape[:2]

@@ -36,18 +36,18 @@ class MainWindow(uiclass, baseclass):
                 image_component_viewer=self.image_component_2,
                 mode_combo_box=self.image_combo_2,
             ),
-            # ImageViewPort(
-            #     window=self,
-            #     image_original_viewer=self.image_original_3,
-            #     image_component_viewer=self.image_component_3,
-            #     mode_combo_box=self.image_combo_3,
-            # ),
-            # ImageViewPort(
-            #     window=self,
-            #     image_original_viewer=self.image_original_4,
-            #     image_component_viewer=self.image_component_4,
-            #     mode_combo_box=self.image_combo_4,
-            # ),
+            ImageViewPort(
+                window=self,
+                image_original_viewer=self.image_original_3,
+                image_component_viewer=self.image_component_3,
+                mode_combo_box=self.image_combo_3,
+            ),
+            ImageViewPort(
+                window=self,
+                image_original_viewer=self.image_original_4,
+                image_component_viewer=self.image_component_4,
+                mode_combo_box=self.image_combo_4,
+            ),
         ]
 
     def _initialize_output_viewers(self):
@@ -83,7 +83,7 @@ class MainWindow(uiclass, baseclass):
             image_view_port.draw_region_square(scale=(value / 100))
 
         # todo need to change calling place
-        self._display_mixer_output()
+        # self._display_mixer_output()
 
     # todo to be continued
     def _display_mixer_output(self):
@@ -111,9 +111,15 @@ class MainWindow(uiclass, baseclass):
             ],
         }
 
+        self.image_output_1.clear()
+        self.image_output_2.clear()
+
         for output in ["output_1", "output_2"]:
             if all(image is not None for image in images[output]):
                 self._process_images(output, images[output])
+
+    def _get_curr_region(self):
+        return self.images[0].get_boundries()
 
     def _process_images(self, output, images):
         output_idx = int(output.split("_")[-1]) - 1
@@ -122,19 +128,19 @@ class MainWindow(uiclass, baseclass):
 
         if component_1 == "Magnitude" and component_2 == "Phase":
             self.output_ports[output_idx].reconstruct_image_using_magnitude_phase(
-                *images
+                *images, region=self._get_curr_region()
             )
         elif component_1 == "Phase" and component_2 == "Magnitude":
             self.output_ports[output_idx].reconstruct_image_using_magnitude_phase(
-                *reversed(images)
+                *reversed(images), region=self._get_curr_region()
             )
         elif component_1 == "Real" and component_2 == "Imaginary":
             self.output_ports[output_idx].reconstruct_image_using_real_imaginary(
-                *images
+                *images, region=self._get_curr_region()
             )
         elif component_1 == "Imaginary" and component_2 == "Real":
             self.output_ports[output_idx].reconstruct_image_using_real_imaginary(
-                *reversed(images)
+                *reversed(images), region=self._get_curr_region()
             )
 
 

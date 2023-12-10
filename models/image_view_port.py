@@ -3,13 +3,13 @@ import numpy as np
 from PyQt6.QtCore import pyqtSlot
 from PyQt6.QtWidgets import QFileDialog
 import pyqtgraph as pg
-from models.image import Image
+from models.image import Image, load_image_from_file_name
+
 
 class ComponentViewMode(Enum):
     """
     Enum for different component view modes.
     """
-
 
     MAGNITUDE = 0
     PHASE = 1
@@ -37,7 +37,7 @@ class ImageViewPort:
         self.mode_combo_box = mode_combo_box
         for mode in ComponentViewMode:
             self.mode_combo_box.addItem(mode.name.capitalize())
-        self.component_result: np.ndarray
+        self.component_result: np.ndarray = np.zeros((1000, 1000))
         self.roi = None
 
         self._initialize_slots()
@@ -86,6 +86,19 @@ class ImageViewPort:
             )
             self.image_component_viewer.addItem(self.roi)
 
+    def get_boundries(self) -> tuple:
+        if self.roi is None or self.image is None:
+            return None
+
+        pos = self.roi.pos()
+        size = self.roi.size()
+        x_start = int(pos[0])
+        y_start = int(pos[1])
+        x_end = int(pos[0] + size[0])
+        y_end = int(pos[1] + size[1])
+
+        return (x_start, x_end, y_start, y_end)
+
     @pyqtSlot()
     def _open_image(self, _) -> None:
         file_dialog = QFileDialog()
@@ -94,6 +107,5 @@ class ImageViewPort:
         )
 
         if file_path:
-            self.image = Image(file_name=file_path)
+            self.image = load_image_from_file_name(file_name=file_path)
             self._render_image()
-
