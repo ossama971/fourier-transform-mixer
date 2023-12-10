@@ -89,6 +89,8 @@ class MainWindow(uiclass, baseclass):
         for image_view_port in self.images:
             image_view_port.draw_region_square(scale=(value / 100))
 
+        self._display_mixer_output()
+
     def _get_curr_region(self):
         return self.images[0].get_boundries()
 

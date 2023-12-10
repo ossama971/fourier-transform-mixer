@@ -5,7 +5,6 @@ import pyqtgraph as pg
 
 from enum import Enum
 from models.image_view_port import ComponentViewMode
-from models.image import Image
 
 
 class ImageNumber(Enum):
