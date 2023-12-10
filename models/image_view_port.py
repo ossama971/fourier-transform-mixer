@@ -1,5 +1,5 @@
 import logging
-
+import cv2
 import numpy as np
 from enum import Enum
 
@@ -24,7 +24,7 @@ class ComponentViewMode(Enum):
 
 class ImageViewPort:
     def __init__(
-        self, window, image_original_viewer, image_component_viewer, mode_combo_box
+            self, window, image_original_viewer, image_component_viewer, mode_combo_box
     ) -> None:
         self.image: Image = None
 
@@ -91,7 +91,7 @@ class ImageViewPort:
             )
             self.image_component_viewer.addItem(self.roi)
 
-    def get_boundries(self) -> tuple:
+    def get_boundaries(self) -> tuple:
         if self.roi is None or self.image is None:
             return None
 
@@ -119,3 +119,51 @@ class ImageViewPort:
             self._render_image()
         else:
             logging.error("There was an error loading the image")
+
+    def controller(self, brightness=255,
+                   contrast=127):
+        img = self.imgByte
+        print(img.shape)
+        brightness = int((brightness - 0) * (255 - (-255)) / (510 - 0) + (-255))
+
+        contrast = int((contrast - 0) * (127 - (-127)) / (254 - 0) + (-127))
+
+        if brightness != 0:
+
+            if brightness > 0:
+
+                shadow = brightness
+
+                max = 255
+
+            else:
+
+                shadow = 0
+                max = 255 + brightness
+
+            al_pha = (max - shadow) / 255
+            ga_mma = shadow
+
+            # The function addWeighted calculates
+            # the weighted sum of two arrays
+            cal = cv2.addWeighted(img, al_pha,
+                                  img, 0, ga_mma)
+
+        else:
+            cal = img
+
+        if contrast != 0:
+            Alpha = float(131 * (contrast + 127)) / (127 * (131 - contrast))
+            Gamma = 127 * (1 - Alpha)
+
+            # The function addWeighted calculates
+            # the weighted sum of two arrays
+            cal = cv2.addWeighted(cal, Alpha,
+                                  cal, 0, Gamma)
+
+            # putText renders the specified text string in the image.
+        cv2.putText(cal, 'B:{},C:{}'.format(brightness,
+                                            contrast), (10, 30),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+
+        return cal
