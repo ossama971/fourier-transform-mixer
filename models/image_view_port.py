@@ -2,9 +2,10 @@ import logging
 import cv2
 import numpy as np
 from enum import Enum
+from PyQt6.QtGui import QCursor
 
 import pyqtgraph as pg
-
+from PyQt6.QtCore import Qt
 from PyQt6.QtCore import pyqtSlot
 from PyQt6.QtWidgets import QFileDialog
 
@@ -37,6 +38,7 @@ class ImageViewPort:
 
         self.image_component_viewer = image_component_viewer
         self.image_component_viewer.showAxes(False)
+        self.image_component_viewer.setLimits(xMin=0, xMax=1000, yMin=0, yMax=1000)
 
         self.component_viewer_mode: ComponentViewMode = ComponentViewMode.MAGNITUDE
         self.mode_combo_box = mode_combo_box
@@ -45,12 +47,36 @@ class ImageViewPort:
         self.component_result: np.ndarray = np.zeros((1000, 1000))
         self.roi = None
 
+        self.mouse_pressed = False
+        self.last_x, self.last_y = None, None
+
+
         self._initialize_slots()
 
     def _initialize_slots(self) -> None:
         self.image_original_viewer.mouseDoubleClickEvent = self._open_image
         self.mode_combo_box.currentIndexChanged.connect(self._on_combobox_changed)
 
+        # Connect mouse events to custom functions
+        self.image_original_viewer.scene().sigMouseClicked.connect(self.on_plot_click)
+        self.image_original_viewer.scene().sigMouseMoved.connect(self.on_plot_move)
+    def on_plot_click(self, event):
+        # Set the mouse_pressed flag to True when the mouse button is pressed
+        self.mouse_pressed = not self.mouse_pressed
+        self.image_original_viewer.setCursor(QCursor(Qt.CursorShape.CrossCursor))
+
+    def on_plot_move(self, event):
+        # Print the x and y coordinates only if the mouse button is pressed
+        if self.mouse_pressed:
+            pos = event
+            x, y = pos.x(), pos.y()
+
+            # Print the x and y coordinates only if they have changed
+            if x != self.last_x or y != self.last_y:
+                print(f"Mouse moved at ({x}, {y})")
+
+            # Update the last known position
+            self.last_x, self.last_y = x, y
     def _on_combobox_changed(self, index) -> None:
         self.component_viewer_mode = ComponentViewMode(index)
         print(self.component_viewer_mode)
