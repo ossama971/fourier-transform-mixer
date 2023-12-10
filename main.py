@@ -84,11 +84,18 @@ class MainWindow(uiclass, baseclass):
     def _initialize_slots(self) -> None:
         self.region_slider.valueChanged.connect(self._region_slider_value_changed)
         self.output_btn.clicked.connect(self._display_mixer_output)
+        self.image_1_output_1_slider.valueChanged.connect(self._output_slider_value_changed)
+        self.image_2_output_1_slider.valueChanged.connect(self._output_slider_value_changed)
+        self.image_1_output_2_slider.valueChanged.connect(self._output_slider_value_changed)
+        self.image_2_output_2_slider.valueChanged.connect(self._output_slider_value_changed)
 
     def _region_slider_value_changed(self, value) -> None:
         for image_view_port in self.images:
             image_view_port.draw_region_square(scale=(value / 100))
 
+        self._display_mixer_output()
+
+    def _output_slider_value_changed(self, value):
         self._display_mixer_output()
 
     def _get_curr_region(self):

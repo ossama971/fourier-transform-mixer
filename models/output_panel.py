@@ -71,7 +71,7 @@ class OutputPanel:
         self.weight_2 = value / 10
 
     def reconstruct_image_using_real_imaginary(
-        self, image_1: Image, image_2: Image, region: tuple
+        self, image_1, image_2, region: tuple
     ):
         sliced_image_1_real = image_1.real[region[0] : region[1], region[2] : region[3]]
         logging.info(
@@ -101,7 +101,7 @@ class OutputPanel:
         self.output_viewer.addItem(pg.ImageItem(reconstructed_image))
 
     def reconstruct_image_using_magnitude_phase(
-        self, image_1: Image, image_2: Image, region: tuple
+        self, image_1, image_2, region: tuple
     ):
         # Slice the magnitude of image_1 to match the region
         sliced_image_1_magnitude = image_1.magnitude[
