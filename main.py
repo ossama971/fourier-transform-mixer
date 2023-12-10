@@ -1,7 +1,13 @@
-import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow
-import pyqtgraph as pg
+import os
 
+# Suppress Qt logging
+os.environ["QT_LOGGING_RULES"] = "*=false"
+import sys
+import logging
+import pyqtgraph as pg
+from PyQt6.QtWidgets import QApplication
+
+# Import models
 from models.image_view_port import ImageViewPort
 from models.output_panel import OutputPanel
 from models.mixer import Mixer
@@ -87,11 +93,19 @@ class MainWindow(uiclass, baseclass):
         return self.images[0].get_boundries()
 
     def _display_mixer_output(self):
+        logging.info(f"Slicing region is {self.region_slider.value()}")
         mixer = Mixer(window=self, region=self._get_curr_region())
         mixer.mix()
 
 
-def main():
+def main() -> None:
+    logging.basicConfig(
+        filename="example.log",
+        level=logging.DEBUG,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+    )
+    logging.info("Program has started")
+
     app = QApplication(sys.argv)
     window = MainWindow()
     app.exec()

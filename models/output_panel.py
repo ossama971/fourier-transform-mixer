@@ -1,3 +1,4 @@
+import logging
 import cv2
 import numpy as np
 import pyqtgraph as pg
@@ -65,18 +66,19 @@ class OutputPanel:
         )
 
     def _component_1_weight_slider_value_changed(self, value) -> None:
-        print("slider 1 value =", value)
         self.weight_1 = value / 10
 
     def _component_2_weight_slider_value_changed(self, value) -> None:
-        print("slider 2 value =", value)
         self.weight_2 = value / 10
 
     def reconstruct_image_using_real_imaginary(
         self, image_1: Image, image_2: Image, region: tuple
     ):
         sliced_image_1_real = image_1.real[region[0] : region[1], region[2] : region[3]]
-        print(region)
+        logging.info(
+            f"Reconstruct using real/imaginary over region {region} - ({sliced_image_1_real.shape[0]}x{sliced_image_1_real.shape[1]})"
+        )
+
         print(sliced_image_1_real.shape)
         sliced_image_2_imaginary = image_2.imaginary[
             region[0] : region[1], region[2] : region[3]

@@ -1,8 +1,13 @@
-from enum import Enum
+import logging
+
 import numpy as np
+from enum import Enum
+
+import pyqtgraph as pg
+
 from PyQt6.QtCore import pyqtSlot
 from PyQt6.QtWidgets import QFileDialog
-import pyqtgraph as pg
+
 from models.image import Image, load_image_from_file_name
 
 
@@ -108,4 +113,9 @@ class ImageViewPort:
 
         if file_path:
             self.image = load_image_from_file_name(file_name=file_path)
+            logging.info(
+                f"Opened image: {file_path} - with size: {self.image.image_array.shape}"
+            )
             self._render_image()
+        else:
+            logging.error("There was an error loading the image")
