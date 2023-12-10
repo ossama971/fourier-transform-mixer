@@ -36,18 +36,18 @@ class MainWindow(uiclass, baseclass):
                 image_component_viewer=self.image_component_2,
                 mode_combo_box=self.image_combo_2,
             ),
-            ImageViewPort(
-                window=self,
-                image_original_viewer=self.image_original_3,
-                image_component_viewer=self.image_component_3,
-                mode_combo_box=self.image_combo_3,
-            ),
-            ImageViewPort(
-                window=self,
-                image_original_viewer=self.image_original_4,
-                image_component_viewer=self.image_component_4,
-                mode_combo_box=self.image_combo_4,
-            ),
+            # ImageViewPort(
+            #     window=self,
+            #     image_original_viewer=self.image_original_3,
+            #     image_component_viewer=self.image_component_3,
+            #     mode_combo_box=self.image_combo_3,
+            # ),
+            # ImageViewPort(
+            #     window=self,
+            #     image_original_viewer=self.image_original_4,
+            #     image_component_viewer=self.image_component_4,
+            #     mode_combo_box=self.image_combo_4,
+            # ),
         ]
 
     def _initialize_output_viewers(self):
@@ -87,88 +87,55 @@ class MainWindow(uiclass, baseclass):
 
     # todo to be continued
     def _display_mixer_output(self):
-        img_idx_dictionary = {'Image1': 0, 'Image2': 1, 'Image3': 2, 'Image4': 3}
+        img_idx_dictionary = {"Image1": 0, "Image2": 1, "Image3": 2, "Image4": 3}
 
-        image_1_output_1_idx = img_idx_dictionary[self.image_1_output_1.currentText()]
-        image_2_output_1_idx = img_idx_dictionary[self.image_2_output_1.currentText()]
+        image_indices = {
+            "output_1": [
+                img_idx_dictionary[self.image_1_output_1.currentText()],
+                img_idx_dictionary[self.image_2_output_1.currentText()],
+            ],
+            "output_2": [
+                img_idx_dictionary[self.image_1_output_2.currentText()],
+                img_idx_dictionary[self.image_2_output_2.currentText()],
+            ],
+        }
 
-        image_1_output_2_idx = img_idx_dictionary[self.image_1_output_2.currentText()]
-        image_2_output_2_idx = img_idx_dictionary[self.image_2_output_2.currentText()]
+        images = {
+            "output_1": [
+                self.images[image_indices["output_1"][0]].image,
+                self.images[image_indices["output_1"][1]].image,
+            ],
+            "output_2": [
+                self.images[image_indices["output_2"][0]].image,
+                self.images[image_indices["output_2"][1]].image,
+            ],
+        }
 
-        first_image_for_output_1 = self.images[image_1_output_1_idx].image
-        second_image_for_output_1 = self.images[image_2_output_1_idx].image
+        for output in ["output_1", "output_2"]:
+            if all(image is not None for image in images[output]):
+                self._process_images(output, images[output])
 
-        first_image_for_output_2 = self.images[image_1_output_2_idx].image
-        second_image_for_output_2 = self.images[image_2_output_2_idx].image
+    def _process_images(self, output, images):
+        output_idx = int(output.split("_")[-1]) - 1
+        component_1 = self.__getattribute__(f"image_1_component_{output}").currentText()
+        component_2 = self.__getattribute__(f"image_2_component_{output}").currentText()
 
-        print('idx_1 =', image_1_output_1_idx)
-        print('idx_2 =', image_2_output_1_idx)
-
-        if first_image_for_output_1 is not None and second_image_for_output_1 is not None:
-            if (
-                    self.image_1_component_output_1.currentText() == "Magnitude"
-                    and self.image_2_component_output_1.currentText() == "Phase"
-            ):
-                self.output_ports[0].reconstruct_image_using_magnitude_phase(first_image_for_output_1,
-                                                                             second_image_for_output_1)
-                print(1)
-
-            elif (
-                    self.image_1_component_output_1.currentText() == "Phase"
-                    and self.image_2_component_output_1.currentText() == "Magnitude"
-            ):
-                self.output_ports[0].reconstruct_image_using_magnitude_phase(second_image_for_output_1,
-                                                                             first_image_for_output_1)
-                print(2)
-
-            elif (
-                    self.image_1_component_output_1.currentText() == "Real"
-                    and self.image_2_component_output_1.currentText() == "Imaginary"
-            ):
-                self.output_ports[0].reconstruct_image_using_real_imaginary(first_image_for_output_1,
-                                                                            second_image_for_output_1)
-                print(3)
-
-            elif (
-                    self.image_1_component_output_1.currentText() == "Imaginary"
-                    and self.image_2_component_output_1.currentText() == "Real"
-            ):
-                self.output_ports[0].reconstruct_image_using_magnitude_phase(second_image_for_output_1,
-                                                                             first_image_for_output_1)
-                print(4)
-
-            if first_image_for_output_2 is not None and second_image_for_output_2 is not None:
-                if (
-                        self.image_1_component_output_2.currentText() == "Magnitude"
-                        and self.image_2_component_output_2.currentText() == "Phase"
-                ):
-                    self.output_ports[1].reconstruct_image_using_magnitude_phase(first_image_for_output_2,
-                                                                                 second_image_for_output_2)
-                    print(1)
-
-                elif (
-                        self.image_1_component_output_2.currentText() == "Phase"
-                        and self.image_2_component_output_2.currentText() == "Magnitude"
-                ):
-                    self.output_ports[1].reconstruct_image_using_magnitude_phase(second_image_for_output_2,
-                                                                                 first_image_for_output_2)
-                    print(2)
-
-                elif (
-                        self.image_1_component_output_2.currentText() == "Real"
-                        and self.image_2_component_output_2.currentText() == "Imaginary"
-                ):
-                    self.output_ports[1].reconstruct_image_using_real_imaginary(first_image_for_output_2,
-                                                                                second_image_for_output_2)
-                    print(3)
-
-                elif (
-                        self.image_1_component_output_2.currentText() == "Imaginary"
-                        and self.image_2_component_output_2.currentText() == "Real"
-                ):
-                    self.output_ports[1].reconstruct_image_using_magnitude_phase(second_image_for_output_2,
-                                                                                 first_image_for_output_2)
-                    print(4)
+        if component_1 == "Magnitude" and component_2 == "Phase":
+            self.output_ports[output_idx].reconstruct_image_using_magnitude_phase(
+                *images
+            )
+        elif component_1 == "Phase" and component_2 == "Magnitude":
+            self.output_ports[output_idx].reconstruct_image_using_magnitude_phase(
+                *reversed(images)
+            )
+        elif component_1 == "Real" and component_2 == "Imaginary":
+            self.output_ports[output_idx].reconstruct_image_using_real_imaginary(
+                *images
+            )
+        elif component_1 == "Imaginary" and component_2 == "Real":
+            self.output_ports[output_idx].reconstruct_image_using_real_imaginary(
+                *reversed(images)
+            )
 
 
 def main():
