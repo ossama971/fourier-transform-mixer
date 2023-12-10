@@ -23,7 +23,6 @@ class OutputPanel:
         self.window = window
         self.output_viewer = output_viewer
         self.output_viewer.showAxes(False)
-        self.output_viewer.invertY(True)
         self.first_image_combo_box = first_image_combo_box
         self.second_image_combo_box = second_image_combo_box
         self.first_image_mode_compo_box = first_image_mode_compo_box
@@ -72,21 +71,6 @@ class OutputPanel:
     def _on_second_image_mode_combox_changed(self, index) -> None:
         pass
 
-    def reconstruct_image_using_real_imaginary(self, real_part_weight, real, imaginary_part_weight, imaginary):
-        combined_complex = real_part_weight * real + 1j * imaginary_part_weight * imaginary
-
-        # Perform the inverse Fourier Transform
-        reconstructed_image_complex = np.fft.ifft2(combined_complex)
-
-        # Take the absolute value to obtain the magnitude
-        reconstructed_magnitude = np.abs(reconstructed_image_complex)
-
-        # Normalize the reconstructed magnitude to the range [0, 255]
-        reconstructed_image = cv2.normalize(reconstructed_magnitude, None, 0, 255, cv2.NORM_MINMAX)
-        print('done')
-
-        return reconstructed_image
-
     def reconstruct_image_using_real_imaginary(self, image_1, image_2):
         combined_complex = self.weight_1 * image_1.real + 1j * self.weight_2 * image_2.imaginary
 
@@ -98,7 +82,6 @@ class OutputPanel:
 
         # Normalize the reconstructed magnitude to the range [0, 255]
         reconstructed_image = cv2.normalize(reconstructed_magnitude, None, 0, 255, cv2.NORM_MINMAX)
-        print('done')
 
         self.output_viewer.addItem(pg.ImageItem(reconstructed_image))
 

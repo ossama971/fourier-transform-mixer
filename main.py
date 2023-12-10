@@ -86,24 +86,55 @@ class MainWindow(uiclass, baseclass):
 
     # todo to be continued
     def _display_mixer_output(self):
-        if self.image_1_output_1.currentText() == "Image1":
-            if self.images[0].image is not None:
-                image_1 = self.images[0].image
-                print("image1")
+        img_idx_dictionary = {'Image1': 0, 'Image2': 1, 'Image3': 2, 'Image4': 3}
 
-        if self.image_2_output_1.currentText() == "Image2":
-            if self.images[0].image is not None:
-                image_2 = self.images[1].image
-                print("image2")
+        image_1_output_1_idx = img_idx_dictionary[self.image_1_output_1.currentText()]
+        image_2_output_1_idx = img_idx_dictionary[self.image_2_output_1.currentText()]
 
-        if (
-            self.image_1_component_output_1.currentText() == "Magnitude"
-            and self.image_2_component_output_1.currentText() == "Phase"
-        ):
-            print("mixing")
-            OutputPanel.reconstruct_image_using_magnitude_phase(
-                self.output_ports[0], image_1, image_2
-            )
+        image_1_output_2_idx = img_idx_dictionary[self.image_1_output_2.currentText()]
+        image_2_output_2_idx = img_idx_dictionary[self.image_2_output_2.currentText()]
+
+        first_image_for_output_1 = self.images[image_1_output_1_idx].image
+        second_image_for_output_1 = self.images[image_2_output_1_idx].image
+
+        first_image_for_output_2 = self.images[image_1_output_2_idx].image
+        second_image_for_output_2 = self.images[image_2_output_2_idx].image
+
+        print('idx_1 =', image_1_output_1_idx)
+        print('idx_2 =', image_2_output_1_idx)
+
+        if first_image_for_output_1 is not None and second_image_for_output_1 is not None:
+            if (
+                    self.image_1_component_output_1.currentText() == "Magnitude"
+                    and self.image_2_component_output_1.currentText() == "Phase"
+            ):
+                self.output_ports[0].reconstruct_image_using_magnitude_phase(first_image_for_output_1,
+                                                                             second_image_for_output_1)
+                print(1)
+
+            elif (
+                    self.image_1_component_output_1.currentText() == "Phase"
+                    and self.image_2_component_output_1.currentText() == "Magnitude"
+            ):
+                self.output_ports[0].reconstruct_image_using_magnitude_phase(second_image_for_output_1,
+                                                                             first_image_for_output_1)
+                print(2)
+
+            elif (
+                    self.image_1_component_output_1.currentText() == "Real"
+                    and self.image_2_component_output_1.currentText() == "Imaginary"
+            ):
+                self.output_ports[0].reconstruct_image_using_real_imaginary(first_image_for_output_2,
+                                                                            second_image_for_output_2)
+                print(3)
+
+            elif (
+                    self.image_1_component_output_1.currentText() == "Imaginary"
+                    and self.image_2_component_output_1.currentText() == "Real"
+            ):
+                self.output_ports[0].reconstruct_image_using_magnitude_phase(second_image_for_output_2,
+                                                                             first_image_for_output_2)
+                print(4)
 
 
 def main():
