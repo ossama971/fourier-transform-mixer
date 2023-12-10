@@ -68,6 +68,7 @@ class ImageViewPort:
     def on_plot_move(self, event):
         # Print the x and y coordinates only if the mouse button is pressed
         if self.mouse_pressed:
+            self.image_original_viewer.setCursor(QCursor(Qt.CursorShape.CrossCursor))
             pos = event
             x, y = pos.x(), pos.y()
 
@@ -77,6 +78,9 @@ class ImageViewPort:
 
             # Update the last known position
             self.last_x, self.last_y = x, y
+        else:
+            self.image_original_viewer.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
+
     def _on_combobox_changed(self, index) -> None:
         self.component_viewer_mode = ComponentViewMode(index)
         print(self.component_viewer_mode)
