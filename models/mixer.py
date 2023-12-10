@@ -23,6 +23,7 @@ class OutputPanel:
         self.window = window
         self.output_viewer = output_viewer
         self.output_viewer.showAxes(False)
+        self.output_viewer.rotate(90)
         self.first_image_combo_box = first_image_combo_box
         self.second_image_combo_box = second_image_combo_box
         self.first_image_mode_compo_box = first_image_mode_compo_box
@@ -72,6 +73,9 @@ class OutputPanel:
         pass
 
     def reconstruct_image_using_real_imaginary(self, image_1, image_2):
+        print(image_1.real[:15])
+        print('-'*10)
+        print(image_2.imaginary[:15])
         combined_complex = self.weight_1 * image_1.real + 1j * self.weight_2 * image_2.imaginary
 
         # Perform the inverse Fourier Transform
@@ -87,6 +91,9 @@ class OutputPanel:
 
     def reconstruct_image_using_magnitude_phase(self, image_1, image_2):
         # Convert polar coordinates to Cartesian coordinates
+        print(image_1.magnitude[:15])
+        print('-'*10)
+        print(image_2.phase[:15])
         real_part = self.weight_1 * image_1.magnitude * np.cos(image_2.phase)
         imaginary_part = self.weight_2 * image_1.magnitude * np.sin(image_2.phase)
 
