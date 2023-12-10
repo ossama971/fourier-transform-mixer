@@ -33,10 +33,10 @@ class ImageViewPort:
         self.image_original_viewer = image_original_viewer
         self.image_original_viewer.showAxes(False)
         self.image_original_viewer.invertY(True)
+        self.image_original_viewer.setLimits(xMin=0, xMax=1000, yMin=0, yMax=1000)
 
         self.image_component_viewer = image_component_viewer
         self.image_component_viewer.showAxes(False)
-        self.image_component_viewer.invertY(True)
 
         self.component_viewer_mode: ComponentViewMode = ComponentViewMode.MAGNITUDE
         self.mode_combo_box = mode_combo_box
