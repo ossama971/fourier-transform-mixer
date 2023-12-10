@@ -52,26 +52,26 @@ class MainWindow(uiclass, baseclass):
 
     def _initialize_output_viewers(self):
         self.output_ports = [
-            # OutputPanel(
-            #     window=self,
-            #     output_viewer=self.image_output_1,
-            #     first_image_combo_box=self.image_1_output_1,
-            #     second_image_combo_box=self.image_2_output_1,
-            #     first_image_mode_compo_box=self.image_1_component_output_1,
-            #     second_image_mode_compo_box=self.image_2_component_output_1,
-            #     component1_weight_slider=self.image_1_output_1_slider,
-            #     component2_weight_slider=self.image_2_output_1_slider,
-            # ),
-            # OutputPanel(
-            #     window=self,
-            #     output_viewer=self.image_output_2,
-            #     first_image_combo_box=self.image_1_output_2,
-            #     second_image_combo_box=self.image_2_output_2,
-            #     first_image_mode_compo_box=self.image_1_component_output_2,
-            #     second_image_mode_compo_box=self.image_2_component_output_2,
-            #     component1_weight_slider=self.image_1_output_2_slider,
-            #     component2_weight_slider=self.image_2_output_2_slider,
-            # ),
+            OutputPanel(
+                window=self,
+                output_viewer=self.image_output_1,
+                first_image_combo_box=self.image_1_output_1,
+                second_image_combo_box=self.image_2_output_1,
+                first_image_mode_compo_box=self.image_1_component_output_1,
+                second_image_mode_compo_box=self.image_2_component_output_1,
+                component1_weight_slider=self.image_1_output_1_slider,
+                component2_weight_slider=self.image_2_output_1_slider,
+            ),
+            OutputPanel(
+                window=self,
+                output_viewer=self.image_output_2,
+                first_image_combo_box=self.image_1_output_2,
+                second_image_combo_box=self.image_2_output_2,
+                first_image_mode_compo_box=self.image_1_component_output_2,
+                second_image_mode_compo_box=self.image_2_component_output_2,
+                component1_weight_slider=self.image_1_output_2_slider,
+                component2_weight_slider=self.image_2_output_2_slider,
+            ),
         ]
 
     def _initialize_slots(self) -> None:

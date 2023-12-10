@@ -22,6 +22,8 @@ class OutputPanel:
                  second_image_mode_compo_box, component1_weight_slider, component2_weight_slider):
         self.window = window
         self.output_viewer = output_viewer
+        self.output_viewer.showAxes(False)
+        self.output_viewer.invertY(True)
         self.first_image_combo_box = first_image_combo_box
         self.second_image_combo_box = second_image_combo_box
         self.first_image_mode_compo_box = first_image_mode_compo_box
@@ -98,7 +100,7 @@ class OutputPanel:
         reconstructed_image = cv2.normalize(reconstructed_magnitude, None, 0, 255, cv2.NORM_MINMAX)
         print('done')
 
-        self.output_viewer.addItem(pg.ImageItem(self.reconstructed_image))
+        self.output_viewer.addItem(pg.ImageItem(reconstructed_image))
 
     def reconstruct_image_using_magnitude_phase(self, image_1, image_2):
         # Convert polar coordinates to Cartesian coordinates
@@ -120,4 +122,4 @@ class OutputPanel:
         # Convert the reconstructed image to unsigned 8-bit integer (uint8)
         reconstructed_image = np.uint8(reconstructed_image)
 
-        self.output_viewer.addItem(pg.ImageItem(self.reconstructed_image))
+        self.output_viewer.addItem(pg.ImageItem(reconstructed_image))
