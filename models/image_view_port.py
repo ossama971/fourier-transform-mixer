@@ -48,7 +48,7 @@ class ImageViewPort:
         self._initialize_slots()
 
     def _initialize_slots(self) -> None:
-        self.image_original_viewer.mousePressEvent = self._open_image
+        self.image_original_viewer.mouseDoubleClickEvent = self._open_image
         self.mode_combo_box.currentIndexChanged.connect(self._on_combobox_changed)
 
     def _on_combobox_changed(self, index) -> None:
