@@ -25,7 +25,7 @@ class ComponentViewMode(Enum):
 
 class ImageViewPort:
     def __init__(
-            self, window, image_original_viewer, image_component_viewer, mode_combo_box
+            self, window, image_original_viewer, image_component_viewer, mode_combo_box,
     ) -> None:
         self.image: Image = None
 
@@ -49,6 +49,10 @@ class ImageViewPort:
 
         self.mouse_pressed = False
         self.last_x, self.last_y = None, None
+
+        # set initial brightness and contrast
+        self.brightness = 255
+        self.contrast = 127
 
 
         self._initialize_slots()
@@ -150,26 +154,27 @@ class ImageViewPort:
         else:
             logging.error("There was an error loading the image")
 
-    def controller(self, brightness=255,
-                   contrast=127):
+    # def control_brightness_and_contrast(self, brightness=255,
+    #                contrast=127):
+    def control_brightness_and_contrast(self):
         img = self.imgByte
         print(img.shape)
-        brightness = int((brightness - 0) * (255 - (-255)) / (510 - 0) + (-255))
+        self.brightness = int((self.brightness - 0) * (255 - (-255)) / (510 - 0) + (-255))
 
-        contrast = int((contrast - 0) * (127 - (-127)) / (254 - 0) + (-127))
+        self.contrast = int((self.contrast - 0) * (127 - (-127)) / (254 - 0) + (-127))
 
-        if brightness != 0:
+        if self.brightness != 0:
 
-            if brightness > 0:
+            if self.brightness > 0:
 
-                shadow = brightness
+                shadow = self.brightness
 
                 max = 255
 
             else:
 
                 shadow = 0
-                max = 255 + brightness
+                max = 255 + self.brightness
 
             al_pha = (max - shadow) / 255
             ga_mma = shadow
@@ -182,8 +187,8 @@ class ImageViewPort:
         else:
             cal = img
 
-        if contrast != 0:
-            Alpha = float(131 * (contrast + 127)) / (127 * (131 - contrast))
+        if self.contrast != 0:
+            Alpha = float(131 * (self.contrast + 127)) / (127 * (131 - self.contrast))
             Gamma = 127 * (1 - Alpha)
 
             # The function addWeighted calculates
@@ -192,8 +197,8 @@ class ImageViewPort:
                                   cal, 0, Gamma)
 
             # putText renders the specified text string in the image.
-        cv2.putText(cal, 'B:{},C:{}'.format(brightness,
-                                            contrast), (10, 30),
+        cv2.putText(cal, 'B:{},C:{}'.format(self.brightness,
+                                            self.contrast), (10, 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
         return cal
