@@ -49,28 +49,15 @@ class OutputPanel:
     def _initialize_slots(self) -> None:
         self.component_1_weight_slider.valueChanged.connect(self._component_1_weight_slider_value_changed)
         self.component_2_weight_slider.valueChanged.connect(self._component_2_weight_slider_value_changed)
-        self.first_image_combo_box.currentIndexChanged.connect(self._on_first_image_combox_changed)
-        self.second_image_combo_box.currentIndexChanged.connect(self._on_second_image_combox_changed)
-        self.first_image_mode_compo_box.currentIndexChanged.connect(self._on_first_image_mode_combox_changed)
-        self.second_image_mode_compo_box.currentIndexChanged.connect(self._on_second_image_mode_combox_changed)
 
     def _component_1_weight_slider_value_changed(self, value) -> None:
-        pass
+        print('slider 1 value =', value)
+        self.weight_1 = value / 10
 
     def _component_2_weight_slider_value_changed(self, value) -> None:
-        pass
+        print('slider 2 value =', value)
+        self.weight_2 = value / 10
 
-    def _on_first_image_combox_changed(self, index) -> None:
-        pass
-
-    def _on_second_image_combox_changed(self, index) -> None:
-        pass
-
-    def _on_first_image_mode_combox_changed(self, index) -> None:
-        pass
-
-    def _on_second_image_mode_combox_changed(self, index) -> None:
-        pass
 
     def reconstruct_image_using_real_imaginary(self, image_1, image_2):
         print(image_1.real[:15])

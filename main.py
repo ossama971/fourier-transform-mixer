@@ -76,6 +76,7 @@ class MainWindow(uiclass, baseclass):
 
     def _initialize_slots(self) -> None:
         self.region_slider.valueChanged.connect(self._region_slider_value_changed)
+        self.output_btn.clicked.connect(self._display_mixer_output)
 
     def _region_slider_value_changed(self, value) -> None:
         for image_view_port in self.images:

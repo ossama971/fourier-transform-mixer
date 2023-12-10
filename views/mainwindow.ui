@@ -384,6 +384,13 @@
        </layout>
       </item>
       <item>
+       <widget class="QPushButton" name="output_btn">
+        <property name="text">
+         <string>Show Output</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QGridLayout" name="gridLayout_7">
         <item row="0" column="0">
          <layout class="QVBoxLayout" name="verticalLayout">
