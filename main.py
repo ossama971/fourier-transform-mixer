@@ -136,6 +136,39 @@ class MainWindow(uiclass, baseclass):
                                                                              first_image_for_output_1)
                 print(4)
 
+            if first_image_for_output_2 is not None and second_image_for_output_2 is not None:
+                if (
+                        self.image_1_component_output_2.currentText() == "Magnitude"
+                        and self.image_2_component_output_2.currentText() == "Phase"
+                ):
+                    self.output_ports[1].reconstruct_image_using_magnitude_phase(first_image_for_output_2,
+                                                                                 second_image_for_output_2)
+                    print(1)
+
+                elif (
+                        self.image_1_component_output_2.currentText() == "Phase"
+                        and self.image_2_component_output_2.currentText() == "Magnitude"
+                ):
+                    self.output_ports[1].reconstruct_image_using_magnitude_phase(second_image_for_output_2,
+                                                                                 first_image_for_output_2)
+                    print(2)
+
+                elif (
+                        self.image_1_component_output_2.currentText() == "Real"
+                        and self.image_2_component_output_2.currentText() == "Imaginary"
+                ):
+                    self.output_ports[1].reconstruct_image_using_real_imaginary(first_image_for_output_2,
+                                                                                second_image_for_output_2)
+                    print(3)
+
+                elif (
+                        self.image_1_component_output_2.currentText() == "Imaginary"
+                        and self.image_2_component_output_2.currentText() == "Real"
+                ):
+                    self.output_ports[1].reconstruct_image_using_magnitude_phase(second_image_for_output_2,
+                                                                                 first_image_for_output_2)
+                    print(4)
+
 
 def main():
     app = QApplication(sys.argv)
