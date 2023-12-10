@@ -50,6 +50,10 @@ class ImageViewPort:
         self.mouse_pressed = False
         self.last_x, self.last_y = None, None
 
+        # set original images brightness and contrast
+        self.original_brightness = 255
+        self.original_contrast = 127
+
         # set initial brightness and contrast
         self.brightness = 255
         self.contrast = 127
@@ -76,12 +80,29 @@ class ImageViewPort:
             pos = event
             x, y = pos.x(), pos.y()
 
-            # Print the x and y coordinates only if they have changed
-            if x != self.last_x or y != self.last_y:
-                print(f"Mouse moved at ({x}, {y})")
+            # set initial x, y
+            if self.last_x is None:
+                self.last_x, self.last_y = x, y
 
-            # Update the last known position
-            self.last_x, self.last_y = x, y
+            print('last_x =', self.last_x)
+            print('curr_x =', x)
+            print('last_y =', self.last_y)
+            print('curr_y =', y)
+
+            # change in x-axis changes the brightness
+            if abs(x - self.last_x) > 10:
+                self.brightness = (x - self.last_x) / 10
+                print('brightness changed to:', self.brightness)
+                self.last_x = x
+                self.control_brightness_and_contrast()
+
+            # change in y-axis changes the contrast
+            elif abs(y - self.last_y) > 10:
+                self.contrast = abs(y - self.last_y) / 10
+                print('contrast changed to:', self.contrast)
+                self.last_y = y
+                self.control_brightness_and_contrast()
+
         else:
             self.image_original_viewer.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
 
@@ -157,48 +178,59 @@ class ImageViewPort:
     # def control_brightness_and_contrast(self, brightness=255,
     #                contrast=127):
     def control_brightness_and_contrast(self):
-        img = self.imgByte
-        print(img.shape)
-        self.brightness = int((self.brightness - 0) * (255 - (-255)) / (510 - 0) + (-255))
-
-        self.contrast = int((self.contrast - 0) * (127 - (-127)) / (254 - 0) + (-127))
-
-        if self.brightness != 0:
-
-            if self.brightness > 0:
-
-                shadow = self.brightness
-
-                max = 255
-
-            else:
-
-                shadow = 0
-                max = 255 + self.brightness
-
-            al_pha = (max - shadow) / 255
-            ga_mma = shadow
-
-            # The function addWeighted calculates
-            # the weighted sum of two arrays
-            cal = cv2.addWeighted(img, al_pha,
-                                  img, 0, ga_mma)
-
-        else:
-            cal = img
-
-        if self.contrast != 0:
-            Alpha = float(131 * (self.contrast + 127)) / (127 * (131 - self.contrast))
-            Gamma = 127 * (1 - Alpha)
-
-            # The function addWeighted calculates
-            # the weighted sum of two arrays
-            cal = cv2.addWeighted(cal, Alpha,
-                                  cal, 0, Gamma)
-
-            # putText renders the specified text string in the image.
-        cv2.putText(cal, 'B:{},C:{}'.format(self.brightness,
-                                            self.contrast), (10, 30),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-
-        return cal
+        pass
+        # img = self.image.image_array
+        # print('img =',type(img))
+        # self.brightness = int((self.brightness - 0) * (255 - (-255)) / (510 - 0) + (-255))
+        # self.brightness += abs(self.brightness) // 10
+        #
+        # self.contrast = int((self.contrast - 0) * (127 - (-127)) / (254 - 0) + (-127))
+        # self.brightness += abs(self.brightness) // 10
+        #
+        # # self.brightness = 100
+        # # self.contrast = 50
+        #
+        # if self.brightness != 0:
+        #
+        #     if self.brightness > 0:
+        #
+        #         shadow = self.brightness
+        #
+        #         max = 255
+        #
+        #     else:
+        #
+        #         shadow = 0
+        #         max = 255 + self.brightness
+        #
+        #     al_pha = (max - shadow) / 255
+        #     ga_mma = shadow
+        #
+        #     # The function addWeighted calculates
+        #     # the weighted sum of two arrays
+        #     cal = cv2.addWeighted(img, al_pha,
+        #                           img, 0, ga_mma)
+        #
+        # else:
+        #     cal = img.image_byte
+        #
+        # if self.contrast != 0:
+        #     Alpha = float(131 * (self.contrast + 127)) / (127 * (131 - self.contrast))
+        #     Gamma = 127 * (1 - Alpha)
+        #
+        #     # The function addWeighted calculates
+        #     # the weighted sum of two arrays
+        #     cal = cv2.addWeighted(cal, Alpha,
+        #                           cal, 0, Gamma)
+        #
+        #     # putText renders the specified text string in the image.
+        # cv2.putText(cal, 'B:{},C:{}'.format(self.brightness,
+        #                                     self.contrast), (10, 30),
+        #             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+        #
+        # print('brightness =', self.brightness)
+        # print('contrast =', self.contrast)
+        # # print(type(cal))
+        # # self.image = cal
+        # self.image_original_viewer.addItem(pg.ImageItem(cal))
+        # # return cal
