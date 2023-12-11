@@ -1,3 +1,4 @@
+import copy
 import logging
 import cv2
 import numpy as np
@@ -84,24 +85,25 @@ class ImageViewPort:
             if self.last_x is None:
                 self.last_x, self.last_y = x, y
 
-            print('last_x =', self.last_x)
-            print('curr_x =', x)
-            print('last_y =', self.last_y)
-            print('curr_y =', y)
+            new_image = copy.deepcopy(self.image)
 
             # change in x-axis changes the brightness
             if abs(x - self.last_x) > 10:
-                self.brightness = (x - self.last_x) / 10
-                print('brightness changed to:', self.brightness)
+                new_image.image_array += int(x) // 20
+                logging.info(
+                    f"Change in Brightness with {x // 10} degrees"
+                )
+                self.image_original_viewer.addItem(pg.ImageItem(new_image.image_array))
                 self.last_x = x
-                self.control_brightness_and_contrast()
 
             # change in y-axis changes the contrast
             elif abs(y - self.last_y) > 10:
-                self.contrast = abs(y - self.last_y) / 10
-                print('contrast changed to:', self.contrast)
+                new_image.image_array *= int(y) // 20
+                logging.info(
+                    f"Change in Contrast with {y // 10} degrees"
+                )
+                self.image_original_viewer.addItem(pg.ImageItem(new_image.image_array))
                 self.last_y = y
-                self.control_brightness_and_contrast()
 
         else:
             self.image_original_viewer.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
@@ -175,62 +177,3 @@ class ImageViewPort:
         else:
             logging.error("There was an error loading the image")
 
-    # def control_brightness_and_contrast(self, brightness=255,
-    #                contrast=127):
-    def control_brightness_and_contrast(self):
-        pass
-        # img = self.image.image_array
-        # print('img =',type(img))
-        # self.brightness = int((self.brightness - 0) * (255 - (-255)) / (510 - 0) + (-255))
-        # self.brightness += abs(self.brightness) // 10
-        #
-        # self.contrast = int((self.contrast - 0) * (127 - (-127)) / (254 - 0) + (-127))
-        # self.brightness += abs(self.brightness) // 10
-        #
-        # # self.brightness = 100
-        # # self.contrast = 50
-        #
-        # if self.brightness != 0:
-        #
-        #     if self.brightness > 0:
-        #
-        #         shadow = self.brightness
-        #
-        #         max = 255
-        #
-        #     else:
-        #
-        #         shadow = 0
-        #         max = 255 + self.brightness
-        #
-        #     al_pha = (max - shadow) / 255
-        #     ga_mma = shadow
-        #
-        #     # The function addWeighted calculates
-        #     # the weighted sum of two arrays
-        #     cal = cv2.addWeighted(img, al_pha,
-        #                           img, 0, ga_mma)
-        #
-        # else:
-        #     cal = img.image_byte
-        #
-        # if self.contrast != 0:
-        #     Alpha = float(131 * (self.contrast + 127)) / (127 * (131 - self.contrast))
-        #     Gamma = 127 * (1 - Alpha)
-        #
-        #     # The function addWeighted calculates
-        #     # the weighted sum of two arrays
-        #     cal = cv2.addWeighted(cal, Alpha,
-        #                           cal, 0, Gamma)
-        #
-        #     # putText renders the specified text string in the image.
-        # cv2.putText(cal, 'B:{},C:{}'.format(self.brightness,
-        #                                     self.contrast), (10, 30),
-        #             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-        #
-        # print('brightness =', self.brightness)
-        # print('contrast =', self.contrast)
-        # # print(type(cal))
-        # # self.image = cal
-        # self.image_original_viewer.addItem(pg.ImageItem(cal))
-        # # return cal
