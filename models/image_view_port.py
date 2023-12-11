@@ -48,7 +48,7 @@ class ImageViewPort:
         self.component_result: np.ndarray = np.zeros((1000, 1000))
         self.roi = None
 
-        self.mouse_pressed = False
+        self.mouse_pressed = True
         self.last_x, self.last_y = None, None
 
         # set original images brightness and contrast
@@ -76,7 +76,7 @@ class ImageViewPort:
 
     def on_plot_move(self, event):
         # Print the x and y coordinates only if the mouse button is pressed
-        if self.mouse_pressed:
+        if self.mouse_pressed and self.image is not None:
             self.image_original_viewer.setCursor(QCursor(Qt.CursorShape.CrossCursor))
             pos = event
             x, y = pos.x(), pos.y()
@@ -148,7 +148,7 @@ class ImageViewPort:
             )
             self.image_component_viewer.addItem(self.roi)
 
-    def get_boundaries(self) -> tuple:
+    def get_boundries(self) -> tuple:
         if self.roi is None or self.image is None:
             return None
 
