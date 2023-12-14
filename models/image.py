@@ -9,6 +9,8 @@ class Image:
         self.image_array = cv2.transpose(self.image_byte)
 
         self.dft = np.fft.fft2(self.image_byte)
+        self.dft = np.fft.fftshift(self.dft)
+
         self.real = np.real(self.dft)
         self.imaginary = np.imag(self.dft)
         self.magnitude = np.abs(self.dft)
