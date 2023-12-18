@@ -89,7 +89,7 @@ class ImageViewPort:
 
             # change in x-axis changes the brightness
             if abs(x - self.last_x) > 10:
-                new_image.image_array += int(x) // 20
+                new_image.image_array += int(x) // 10
                 logging.info(
                     f"Change in Brightness with {x // 10} degrees"
                 )
@@ -98,7 +98,7 @@ class ImageViewPort:
 
             # change in y-axis changes the contrast
             elif abs(y - self.last_y) > 10:
-                new_image.image_array *= int(y) // 20
+                new_image.image_array *= int(y) // 30
                 logging.info(
                     f"Change in Contrast with {y // 10} degrees"
                 )
