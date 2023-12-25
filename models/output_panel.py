@@ -78,10 +78,11 @@ class OutputPanel:
             f"Reconstruct using real/imaginary over region {region} - ({sliced_image_1_real.shape[0]}x{sliced_image_1_real.shape[1]})"
         )
 
-        print(sliced_image_1_real.shape)
         sliced_image_2_imaginary = image_2.imaginary[
             region[0] : region[1], region[2] : region[3]
         ]
+
+
         combined_complex = (
             self.weight_1 * sliced_image_1_real
             + 1j * self.weight_2 * sliced_image_2_imaginary
