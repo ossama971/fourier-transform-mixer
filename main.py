@@ -102,12 +102,15 @@ class MainWindow(uiclass, baseclass):
         self.image_4_weight_slider.valueChanged.connect(
             self._output_slider_value_changed
         )
+
         # Output mode radio buttons
         self.output_rad_1.toggled.connect(self._on_output_mode_radio_button_toggled)
         self.output_rad_2.toggled.connect(self._on_output_mode_radio_button_toggled)
+
         # Mixing mode radio buttons
         self.mode_rad_1.toggled.connect(self._on_mode_radio_button_toggled)
         self.mode_rad_2.toggled.connect(self._on_mode_radio_button_toggled)
+
         # ROI mode radio buttons
         self.inner_rad.toggled.connect(self._on_roi_radio_button_toggled)
         self.outer_rad.toggled.connect(self._on_roi_radio_button_toggled)
@@ -157,6 +160,7 @@ class MainWindow(uiclass, baseclass):
         self._display_mixer_output()
 
     def _get_curr_region(self):
+        print('curr_region:',self.images[0].get_boundries())
         return self.images[0].get_boundries()
 
     def _display_mixer_output(self):
