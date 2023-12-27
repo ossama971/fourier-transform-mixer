@@ -26,7 +26,11 @@ class ComponentViewMode(Enum):
 
 class ImageViewPort:
     def __init__(
-            self, window, image_original_viewer, image_component_viewer, mode_combo_box,
+        self,
+        window,
+        image_original_viewer,
+        image_component_viewer,
+        mode_combo_box,
     ) -> None:
         self.image: Image = None
 
@@ -59,7 +63,6 @@ class ImageViewPort:
         self.brightness = 255
         self.contrast = 127
 
-
         self._initialize_slots()
 
     def _initialize_slots(self) -> None:
@@ -69,6 +72,7 @@ class ImageViewPort:
         # Connect mouse events to custom functions
         self.image_original_viewer.scene().sigMouseClicked.connect(self.on_plot_click)
         self.image_original_viewer.scene().sigMouseMoved.connect(self.on_plot_move)
+
     def on_plot_click(self, event):
         # Set the mouse_pressed flag to True when the mouse button is pressed
         self.mouse_pressed = not self.mouse_pressed
@@ -90,18 +94,14 @@ class ImageViewPort:
             # change in x-axis changes the brightness
             if abs(x - self.last_x) > 10:
                 new_image.image_array += int(x) // 10
-                logging.info(
-                    f"Change in Brightness with {x // 10} degrees"
-                )
+                logging.info(f"Change in Brightness with {x // 10} degrees")
                 self.image_original_viewer.addItem(pg.ImageItem(new_image.image_array))
                 self.last_x = x
 
             # change in y-axis changes the contrast
             elif abs(y - self.last_y) > 10:
                 new_image.image_array *= int(y) // 30
-                logging.info(
-                    f"Change in Contrast with {y // 10} degrees"
-                )
+                logging.info(f"Change in Contrast with {y // 10} degrees")
                 self.image_original_viewer.addItem(pg.ImageItem(new_image.image_array))
                 self.last_y = y
 
@@ -176,4 +176,3 @@ class ImageViewPort:
             self._render_image()
         else:
             logging.error("There was an error loading the image")
-

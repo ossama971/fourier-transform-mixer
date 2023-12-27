@@ -17,7 +17,7 @@
    <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
@@ -88,7 +88,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="image_label_3">
             <property name="text">
-             <string>Image 3</string>
+             <string>Image 2</string>
             </property>
            </widget>
           </item>
@@ -207,7 +207,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="image_label_2">
             <property name="text">
-             <string>Image 2</string>
+             <string>Image 3</string>
             </property>
            </widget>
           </item>
@@ -263,44 +263,133 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="spacing">
-         <number>7</number>
-        </property>
-        <property name="leftMargin">
-         <number>200</number>
-        </property>
-        <property name="rightMargin">
-         <number>200</number>
-        </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLabel" name="region_label">
-          <property name="text">
-           <string>Region Scale</string>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>20</number>
           </property>
-         </widget>
+          <property name="leftMargin">
+           <number>20</number>
+          </property>
+          <property name="rightMargin">
+           <number>40</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="region_label">
+            <property name="text">
+             <string>Region Scale</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="region_slider">
+            <property name="maximumSize">
+             <size>
+              <width>400</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="singleStep">
+             <number>2</number>
+            </property>
+            <property name="value">
+             <number>100</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QSlider" name="region_slider">
-          <property name="maximumSize">
-           <size>
-            <width>400</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="maximum">
-           <number>100</number>
-          </property>
-          <property name="singleStep">
-           <number>2</number>
-          </property>
-          <property name="value">
-           <number>100</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QGroupBox" name="groupBox_3">
+            <property name="title">
+             <string>ROI</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_17">
+             <item>
+              <widget class="QRadioButton" name="inner_rad">
+               <property name="text">
+                <string>Inner</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="outer_rad">
+               <property name="text">
+                <string>Outer</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_2">
+            <property name="title">
+             <string>Mixing Mode</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <item>
+              <widget class="QRadioButton" name="mode_rad_1">
+               <property name="text">
+                <string>Real and Imaginary</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="mode_rad_2">
+               <property name="text">
+                <string>Phase and Magnitude</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string>Output Mode</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_10">
+             <item>
+              <widget class="QRadioButton" name="output_rad_1">
+               <property name="text">
+                <string>Output 1</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="output_rad_2">
+               <property name="text">
+                <string>Output 2</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
@@ -401,7 +490,15 @@
         <item row="0" column="0">
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QComboBox" name="image_1_output_1"/>
+           <widget class="QLabel" name="image_label_5">
+            <property name="styleSheet">
+             <string notr="true">font-size:14px;
+font-weight: bold</string>
+            </property>
+            <property name="text">
+             <string>Image 1</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="image_1_component_output_component_label_1">
@@ -411,7 +508,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="image_1_component_output_1"/>
+           <widget class="QComboBox" name="image_comp_1"/>
           </item>
           <item>
            <widget class="QLabel" name="image_1_contribution_output_component_label_1">
@@ -423,10 +520,10 @@
           <item>
            <widget class="QSlider" name="image_1_output_1_slider">
             <property name="maximum">
-             <number>10</number>
+             <number>100</number>
             </property>
             <property name="value">
-             <number>10</number>
+             <number>100</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -438,7 +535,15 @@
         <item row="0" column="1">
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QComboBox" name="image_1_output_2"/>
+           <widget class="QLabel" name="image_label_6">
+            <property name="styleSheet">
+             <string notr="true">font-size:14px;
+font-weight: bold</string>
+            </property>
+            <property name="text">
+             <string>Image 3</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="image_1_component_output_component_label_2">
@@ -448,7 +553,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="image_1_component_output_2"/>
+           <widget class="QComboBox" name="image_comp_3"/>
           </item>
           <item>
            <widget class="QLabel" name="image_1_contribution_output_component_label_2">
@@ -460,10 +565,10 @@
           <item>
            <widget class="QSlider" name="image_1_output_2_slider">
             <property name="maximum">
-             <number>10</number>
+             <number>100</number>
             </property>
             <property name="value">
-             <number>10</number>
+             <number>100</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -475,7 +580,15 @@
         <item row="1" column="0">
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="QComboBox" name="image_2_output_1"/>
+           <widget class="QLabel" name="image_label_7">
+            <property name="styleSheet">
+             <string notr="true">font-size:14px;
+font-weight: bold</string>
+            </property>
+            <property name="text">
+             <string>Image 2</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="image_2_component_output_component_label_1">
@@ -485,7 +598,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="image_2_component_output_1"/>
+           <widget class="QComboBox" name="image_comp_2"/>
           </item>
           <item>
            <widget class="QLabel" name="image_2_contribution_output_component_label_1">
@@ -497,10 +610,10 @@
           <item>
            <widget class="QSlider" name="image_2_output_1_slider">
             <property name="maximum">
-             <number>10</number>
+             <number>100</number>
             </property>
             <property name="value">
-             <number>10</number>
+             <number>100</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -512,7 +625,15 @@
         <item row="1" column="1">
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QComboBox" name="image_2_output_2"/>
+           <widget class="QLabel" name="image_label_8">
+            <property name="styleSheet">
+             <string notr="true">font-size:14px;
+font-weight: bold</string>
+            </property>
+            <property name="text">
+             <string>Image 4</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="image_2_component_output_component_label_2">
@@ -522,7 +643,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="image_2_component_output_2"/>
+           <widget class="QComboBox" name="image_comp_4"/>
           </item>
           <item>
            <widget class="QLabel" name="image_2_contribution_output_component_label_2">
@@ -534,10 +655,10 @@
           <item>
            <widget class="QSlider" name="image_2_output_2_slider">
             <property name="maximum">
-             <number>10</number>
+             <number>100</number>
             </property>
             <property name="value">
-             <number>10</number>
+             <number>100</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>

@@ -9,8 +9,8 @@ from PyQt6.QtWidgets import QApplication
 
 # Import models
 from models.image_view_port import ImageViewPort
-from models.output_panel import OutputPanel
-from models.mixer import Mixer
+from models.output_panel import OutputPanel, OutputModes
+from models.mixer import Mixer, MixModes
 
 uiclass, baseclass = pg.Qt.loadUiType("views/mainwindow.ui")
 
@@ -23,6 +23,11 @@ class MainWindow(uiclass, baseclass):
         self.setupUi(self)
         self.setWindowTitle("Fourier Transform Mixer")
         self.show()
+
+        # App State
+        self.current_mode = MixModes.REAL_IMAGINARY
+        self.current_output = OutputModes.OUTPUT_1
+        self._notify_combobox_observers()
 
         # Initialize states, signals, and slots
         self._initialize_image_viewers()
@@ -60,34 +65,83 @@ class MainWindow(uiclass, baseclass):
     def _initialize_output_viewers(self):
         self.output_ports = [
             OutputPanel(
-                window=self,
                 output_viewer=self.image_output_1,
-                first_image_combo_box=self.image_1_output_1,
-                second_image_combo_box=self.image_2_output_1,
-                first_image_mode_compo_box=self.image_1_component_output_1,
-                second_image_mode_compo_box=self.image_2_component_output_1,
-                component1_weight_slider=self.image_1_output_1_slider,
-                component2_weight_slider=self.image_2_output_1_slider,
             ),
             OutputPanel(
-                window=self,
                 output_viewer=self.image_output_2,
-                first_image_combo_box=self.image_1_output_2,
-                second_image_combo_box=self.image_2_output_2,
-                first_image_mode_compo_box=self.image_1_component_output_2,
-                second_image_mode_compo_box=self.image_2_component_output_2,
-                component1_weight_slider=self.image_1_output_2_slider,
-                component2_weight_slider=self.image_2_output_2_slider,
             ),
         ]
+
+    def _notify_combobox_observers(self):
+        observers = [
+            self.image_comp_1,
+            self.image_comp_2,
+            self.image_comp_3,
+            self.image_comp_4,
+        ]
+        for combobox in observers:
+            combobox.clear()
+            if self.current_mode == MixModes.MAG_PHASE:
+                combobox.addItems(["Magnitude", "Phase"])
+            else:
+                combobox.addItems(["Real", "Imaginary"])
 
     def _initialize_slots(self) -> None:
         self.region_slider.valueChanged.connect(self._region_slider_value_changed)
         self.output_btn.clicked.connect(self._display_mixer_output)
-        self.image_1_output_1_slider.valueChanged.connect(self._output_slider_value_changed)
-        self.image_2_output_1_slider.valueChanged.connect(self._output_slider_value_changed)
-        self.image_1_output_2_slider.valueChanged.connect(self._output_slider_value_changed)
-        self.image_2_output_2_slider.valueChanged.connect(self._output_slider_value_changed)
+        self.image_1_output_1_slider.valueChanged.connect(
+            self._output_slider_value_changed
+        )
+        self.image_2_output_1_slider.valueChanged.connect(
+            self._output_slider_value_changed
+        )
+        self.image_1_output_2_slider.valueChanged.connect(
+            self._output_slider_value_changed
+        )
+        self.image_2_output_2_slider.valueChanged.connect(
+            self._output_slider_value_changed
+        )
+        # Output mode radio buttons
+        self.output_rad_1.toggled.connect(self._on_output_mode_radio_button_toggled)
+        self.output_rad_2.toggled.connect(self._on_output_mode_radio_button_toggled)
+        # Mixing mode radio buttons
+        self.mode_rad_1.toggled.connect(self._on_mode_radio_button_toggled)
+        self.mode_rad_2.toggled.connect(self._on_mode_radio_button_toggled)
+        # ROI mode radio buttons
+        self.inner_rad.toggled.connect(self._on_roi_radio_button_toggled)
+        self.outer_rad.toggled.connect(self._on_roi_radio_button_toggled)
+
+    def _on_roi_radio_button_toggled(self):
+        # Get the radio button that triggered the event
+        # and change state accordingly
+        sender = self.sender()
+
+        if sender.isChecked():
+            print(sender.text())
+
+    def _on_mode_radio_button_toggled(self):
+        # Get the radio button that triggered the event
+        # and change state accordingly
+        sender = self.sender()
+
+        if sender.isChecked():
+            if sender.text() == "Real and Imaginary":
+                self.current_mode = MixModes.REAL_IMAGINARY
+            else:
+                self.current_mode = MixModes.MAG_PHASE
+        self._notify_combobox_observers()
+
+    def _on_output_mode_radio_button_toggled(self):
+        # Get the radio button that triggered the event
+        # and change state accordingly
+        sender = self.sender()
+
+        if sender.isChecked():
+            if sender.text() == "Output 1":
+                self.current_output = OutputModes.OUTPUT_1
+            else:
+                self.current_output = OutputModes.OUTPUT_2
+        print(self.current_output)
 
     def _region_slider_value_changed(self, value) -> None:
         for image_view_port in self.images:
@@ -103,7 +157,17 @@ class MainWindow(uiclass, baseclass):
 
     def _display_mixer_output(self):
         logging.info(f"Slicing region is {self.region_slider.value()}")
-        mixer = Mixer(window=self, region=self._get_curr_region())
+        current_output_port = (
+            self.image_output_1
+            if self.current_output == OutputModes.OUTPUT_1
+            else self.image_output_2
+        )
+        mixer = Mixer(
+            window=self,
+            images=self.images,
+            output_port=current_output_port,
+            region=self._get_curr_region(),
+        )
         mixer.mix()
 
 
