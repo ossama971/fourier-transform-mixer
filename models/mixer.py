@@ -43,7 +43,7 @@ class Mixer:
     #             self.images[3].image,
     #             self.region,
     #         )
-
+    #
     # def reconstruct_new_image_using_real_imaginary(
     #         self, image_1, image_2, image_3, image_4, region: tuple
     # ):
@@ -98,7 +98,10 @@ class Mixer:
     #                 image_4.imaginary[region[0]: region[1], region[2]: region[3]]
     #                 * weight_4
     #         )
-    #
+    #     print('*' * 100)
+    #     print('real:', real.shape)
+    #     print('*' * 100)
+    #     print('imaginary:', imaginary.shape)
     #     combined_complex = real + 1j * imaginary
     #
     #     # Perform the inverse Fourier Transform
@@ -155,7 +158,10 @@ class Mixer:
     #     real_part = magnitude * np.cos(phase)
     #
     #     imaginary_part = magnitude * np.sin(phase)
-    #
+    #     print('*' * 100)
+    #     print('real_part:', real_part)
+    #     print('*' * 100)
+    #     print('imaginary_part:', imaginary_part)
     #     # Combine real and imaginary parts to form the complex image
     #     complex_image = cv2.merge([real_part, imaginary_part])
     #
@@ -189,19 +195,23 @@ class Mixer:
         if comp_type == "Real":
             return image.real * weight
         elif comp_type == "Imaginary":
-            return image.imaginary * weight
+            return 1j * image.imaginary * weight
         elif comp_type == "Magnitude":
             return image.magnitude * weight
         elif comp_type == "Phase":
             return image.phase * weight
 
     def _combine_images(self, components):
+        print('len comp:', len(components))
+        print([np.iscomplexobj(comp) for comp in components])
         real_parts = [np.real(comp) for comp in components]
         imaginary_parts = [np.imag(comp) for comp in components]
 
         real = np.sum(real_parts, axis=0)
         imaginary = np.sum(imaginary_parts, axis=0)
 
+        print('len real:', len(real))
+        print('len real[0]:', len(real[0]))
         return real, imaginary
 
     def _inverse_fourier_transform(self, combined_complex):
@@ -238,16 +248,15 @@ class Mixer:
         self._add_image_to_output_port(reconstructed_image)
 
     def reconstruct_new_image_using_magnitude_phase(self, *images, region: tuple):
-        weights = [self.window.findChild(pg.Slider, f'image_{i}_weight_slider').value() / 100 for i in range(1, 5)]
+        weights = [self.window.findChild(QSlider, f'image_{i}_weight_slider').value() / 100 for i in range(1, 5)]
 
         components = [
-            self._get_weighted_component(image, self.window.findChild(pg.ComboBox, f'image_comp_{i}').currentText(),
+            self._get_weighted_component(image, self.window.findChild(QComboBox, f'image_comp_{i}').currentText(),
                                          weight)
             for i, (image, weight) in enumerate(zip(images, weights), start=1)
         ]
-
+        # todo: fix phase calculation
         magnitude, phase = self._combine_images(components)
-
         real_part = magnitude * np.cos(phase)
         imaginary_part = magnitude * np.sin(phase)
 
