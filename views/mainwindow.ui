@@ -518,7 +518,7 @@ font-weight: bold</string>
            </widget>
           </item>
           <item>
-           <widget class="QSlider" name="image_1_output_1_slider">
+           <widget class="QSlider" name="image_1_weight_slider">
             <property name="maximum">
              <number>100</number>
             </property>
@@ -563,7 +563,7 @@ font-weight: bold</string>
            </widget>
           </item>
           <item>
-           <widget class="QSlider" name="image_1_output_2_slider">
+           <widget class="QSlider" name="image_3_weight_slider">
             <property name="maximum">
              <number>100</number>
             </property>
@@ -608,7 +608,7 @@ font-weight: bold</string>
            </widget>
           </item>
           <item>
-           <widget class="QSlider" name="image_2_output_1_slider">
+           <widget class="QSlider" name="image_2_weight_slider">
             <property name="maximum">
              <number>100</number>
             </property>
@@ -653,7 +653,7 @@ font-weight: bold</string>
            </widget>
           </item>
           <item>
-           <widget class="QSlider" name="image_2_output_2_slider">
+           <widget class="QSlider" name="image_4_weight_slider">
             <property name="maximum">
              <number>100</number>
             </property>
@@ -679,7 +679,7 @@ font-weight: bold</string>
      <x>0</x>
      <y>0</y>
      <width>1316</width>
-     <height>24</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

@@ -28,6 +28,7 @@ class MainWindow(uiclass, baseclass):
         self.current_mode = MixModes.REAL_IMAGINARY
         self.current_output = OutputModes.OUTPUT_1
         self._notify_combobox_observers()
+        self.roi_inner_outer = 'Inner'
 
         # Initialize states, signals, and slots
         self._initialize_image_viewers()
@@ -89,16 +90,16 @@ class MainWindow(uiclass, baseclass):
     def _initialize_slots(self) -> None:
         self.region_slider.valueChanged.connect(self._region_slider_value_changed)
         self.output_btn.clicked.connect(self._display_mixer_output)
-        self.image_1_output_1_slider.valueChanged.connect(
+        self.image_1_weight_slider.valueChanged.connect(
             self._output_slider_value_changed
         )
-        self.image_2_output_1_slider.valueChanged.connect(
+        self.image_2_weight_slider.valueChanged.connect(
             self._output_slider_value_changed
         )
-        self.image_1_output_2_slider.valueChanged.connect(
+        self.image_3_weight_slider.valueChanged.connect(
             self._output_slider_value_changed
         )
-        self.image_2_output_2_slider.valueChanged.connect(
+        self.image_4_weight_slider.valueChanged.connect(
             self._output_slider_value_changed
         )
         # Output mode radio buttons
@@ -117,7 +118,10 @@ class MainWindow(uiclass, baseclass):
         sender = self.sender()
 
         if sender.isChecked():
-            print(sender.text())
+            self.roi_inner_outer = sender.text()
+            logging.info(f"ROI is {self.roi_inner_outer} region")
+
+        self._display_mixer_output()
 
     def _on_mode_radio_button_toggled(self):
         # Get the radio button that triggered the event
@@ -167,7 +171,8 @@ class MainWindow(uiclass, baseclass):
             images=self.images,
             output_port=current_output_port,
             region=self._get_curr_region(),
-            mix_mode=self.current_mode
+            mix_mode=self.current_mode,
+            roi_inner_outer=self.roi_inner_outer
         )
         mixer.mix()
 

@@ -16,14 +16,16 @@ class MixModes(Enum):
 
 
 class Mixer:
-    def __init__(self, window, images, output_port, region: tuple, mix_mode) -> None:
+    def __init__(self, window, images, output_port, region: tuple, mix_mode, roi_inner_outer) -> None:
         self.window = window
         self.output_port = output_port
         self.images = images
         self.region = region
         self.mix_mode = mix_mode
+        self.roi_inner_outer = roi_inner_outer
 
     def mix(self):
+        print('roi_inner_outer =', self.roi_inner_outer)
         if self.mix_mode == MixModes.REAL_IMAGINARY:
             self.reconstruct_new_image_using_real_imaginary(
                 self.images[0].image,
@@ -42,58 +44,58 @@ class Mixer:
             )
 
     def reconstruct_new_image_using_real_imaginary(
-        self, image_1, image_2, image_3, image_4, region: tuple
+            self, image_1, image_2, image_3, image_4, region: tuple
     ):
         print('reconstruct_new_image_using_real_imaginary')
         # todo change the weights with actual weight_slider value
-        weight_1 = self.window.image_1_output_1_slider.value() / 100
-        weight_2 = self.window.image_2_output_1_slider.value() / 100
-        weight_3 = self.window.image_1_output_2_slider.value() / 100
-        weight_4 = self.window.image_2_output_2_slider.value() / 100
+        weight_1 = self.window.image_1_weight_slider.value() / 100
+        weight_2 = self.window.image_2_weight_slider.value() / 100
+        weight_3 = self.window.image_3_weight_slider.value() / 100
+        weight_4 = self.window.image_4_weight_slider.value() / 100
 
-        real = np.zeros_like(image_1.real[region[0] : region[1], region[2] : region[3]])
+        real = np.zeros_like(image_1.real[region[0]: region[1], region[2]: region[3]])
         imaginary = np.zeros_like(
-            image_1.real[region[0] : region[1], region[2] : region[3]]
+            image_1.real[region[0]: region[1], region[2]: region[3]]
         )
 
         if self.window.image_comp_1.currentText() == "Real":
             real += (
-                image_1.real[region[0] : region[1], region[2] : region[3]] * weight_1
+                    image_1.real[region[0]: region[1], region[2]: region[3]] * weight_1
             )
         else:
             imaginary += (
-                image_1.imaginary[region[0] : region[1], region[2] : region[3]]
-                * weight_1
+                    image_1.imaginary[region[0]: region[1], region[2]: region[3]]
+                    * weight_1
             )
 
         if self.window.image_comp_2.currentText() == "Real":
             real += (
-                image_2.real[region[0] : region[1], region[2] : region[3]] * weight_2
+                    image_2.real[region[0]: region[1], region[2]: region[3]] * weight_2
             )
         else:
             imaginary += (
-                image_2.imaginary[region[0] : region[1], region[2] : region[3]]
-                * weight_2
+                    image_2.imaginary[region[0]: region[1], region[2]: region[3]]
+                    * weight_2
             )
 
         if self.window.image_comp_3.currentText() == "Real":
             real += (
-                image_3.real[region[0] : region[1], region[2] : region[3]] * weight_3
+                    image_3.real[region[0]: region[1], region[2]: region[3]] * weight_3
             )
         else:
             imaginary += (
-                image_3.imaginary[region[0] : region[1], region[2] : region[3]]
-                * weight_3
+                    image_3.imaginary[region[0]: region[1], region[2]: region[3]]
+                    * weight_3
             )
 
         if self.window.image_comp_4.currentText() == "Real":
             real += (
-                image_4.real[region[0] : region[1], region[2] : region[3]] * weight_4
+                    image_4.real[region[0]: region[1], region[2]: region[3]] * weight_4
             )
         else:
             imaginary += (
-                image_4.imaginary[region[0] : region[1], region[2] : region[3]]
-                * weight_4
+                    image_4.imaginary[region[0]: region[1], region[2]: region[3]]
+                    * weight_4
             )
 
         combined_complex = real + 1j * imaginary
@@ -108,24 +110,24 @@ class Mixer:
         reconstructed_image = cv2.normalize(
             reconstructed_magnitude, None, 0, 255, cv2.NORM_MINMAX
         )
-
+        if self.output_port:
+            self.output_port.clear()
         self.output_port.addItem(pg.ImageItem(reconstructed_image))
 
     def reconstruct_new_image_using_magnitude_phase(
-        self, image_1, image_2, image_3, image_4, region: tuple
+            self, image_1, image_2, image_3, image_4, region: tuple
     ):
-        print('reconstruct_new_image_using_magnitude_phase')
         # todo change the weights with actual weight_slider value
-        weight_1 = self.window.image_1_output_1_slider.value() / 100
-        weight_2 = self.window.image_2_output_1_slider.value() / 100
-        weight_3 = self.window.image_1_output_2_slider.value() / 100
-        weight_4 = self.window.image_2_output_2_slider.value() / 100
+        weight_1 = self.window.image_1_weight_slider.value() / 100
+        weight_2 = self.window.image_2_weight_slider.value() / 100
+        weight_3 = self.window.image_3_weight_slider.value() / 100
+        weight_4 = self.window.image_4_weight_slider.value() / 100
 
         magnitude = np.zeros_like(
-            image_1.magnitude[region[0] : region[1], region[2] : region[3]]
+            image_1.magnitude[region[0]: region[1], region[2]: region[3]]
         )
         phase = np.zeros_like(
-            image_1.magnitude[region[0] : region[1], region[2] : region[3]]
+            image_1.magnitude[region[0]: region[1], region[2]: region[3]]
         )
 
         if self.window.image_comp_1.currentText() == "Magnitude":
@@ -171,5 +173,6 @@ class Mixer:
 
         # Convert the reconstructed image to unsigned 8-bit integer (uint8)
         reconstructed_image = np.uint8(reconstructed_image)
-
+        if self.output_port:
+            self.output_port.clear()
         self.output_port.addItem(pg.ImageItem(reconstructed_image))
