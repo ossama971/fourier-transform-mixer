@@ -16,39 +16,40 @@ class MixModes(Enum):
 
 
 class Mixer:
-    def __init__(self, window, images, output_port, region: tuple) -> None:
+    def __init__(self, window, images, output_port, region: tuple, mix_mode) -> None:
         self.window = window
         self.output_port = output_port
         self.images = images
         self.region = region
+        self.mix_mode = mix_mode
 
     def mix(self):
-        self.reconstruct_new_image_using_real_imaginary(
-            self.window,
-            self.images[0].image,
-            self.images[1].image,
-            self.images[2].image,
-            self.images[3].image,
-            self.region,
-        )
-
-        self.reconstruct_new_image_using_magnitude_phase(
-            self.window,
-            self.images[0].image,
-            self.images[1].image,
-            self.images[2].image,
-            self.images[3].image,
-            self.region,
-        )
+        if self.mix_mode == MixModes.REAL_IMAGINARY:
+            self.reconstruct_new_image_using_real_imaginary(
+                self.images[0].image,
+                self.images[1].image,
+                self.images[2].image,
+                self.images[3].image,
+                self.region,
+            )
+        else:
+            self.reconstruct_new_image_using_magnitude_phase(
+                self.images[0].image,
+                self.images[1].image,
+                self.images[2].image,
+                self.images[3].image,
+                self.region,
+            )
 
     def reconstruct_new_image_using_real_imaginary(
-        self, window, image_1, image_2, image_3, image_4, region: tuple
+        self, image_1, image_2, image_3, image_4, region: tuple
     ):
+        print('reconstruct_new_image_using_real_imaginary')
         # todo change the weights with actual weight_slider value
-        weight_1 = 1
-        weight_2 = 0
-        weight_3 = 1
-        weight_4 = 0
+        weight_1 = self.window.image_1_output_1_slider.value() / 100
+        weight_2 = self.window.image_2_output_1_slider.value() / 100
+        weight_3 = self.window.image_1_output_2_slider.value() / 100
+        weight_4 = self.window.image_2_output_2_slider.value() / 100
 
         real = np.zeros_like(image_1.real[region[0] : region[1], region[2] : region[3]])
         imaginary = np.zeros_like(
@@ -111,8 +112,9 @@ class Mixer:
         self.output_port.addItem(pg.ImageItem(reconstructed_image))
 
     def reconstruct_new_image_using_magnitude_phase(
-        self, windows, image_1, image_2, image_3, image_4, region: tuple
+        self, image_1, image_2, image_3, image_4, region: tuple
     ):
+        print('reconstruct_new_image_using_magnitude_phase')
         # todo change the weights with actual weight_slider value
         weight_1 = self.window.image_1_output_1_slider.value() / 100
         weight_2 = self.window.image_2_output_1_slider.value() / 100

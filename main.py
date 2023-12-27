@@ -167,6 +167,7 @@ class MainWindow(uiclass, baseclass):
             images=self.images,
             output_port=current_output_port,
             region=self._get_curr_region(),
+            mix_mode=self.current_mode
         )
         mixer.mix()
 
