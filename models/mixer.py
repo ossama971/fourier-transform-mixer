@@ -187,19 +187,21 @@ class Mixer:
     def mix(self):
         images_to_mix = [image_obj.image for image_obj in self.images[:4]]
         if self.mix_mode == MixModes.REAL_IMAGINARY:
-            self.reconstruct_new_image_using_real_imaginary(*images_to_mix, region=self.region)
+            self.reconstruct_new_image_using_real_imaginary(*images_to_mix)
         else:
-            self.reconstruct_new_image_using_magnitude_phase(*images_to_mix, region=self.region)
+            self.reconstruct_new_image_using_magnitude_phase(*images_to_mix)
 
     def _get_weighted_component(self, image, comp_type, weight):
-        if comp_type == "Real":
-            return image.real * weight
-        elif comp_type == "Imaginary":
-            return 1j * image.imaginary * weight
-        elif comp_type == "Magnitude":
-            return image.magnitude * weight
-        elif comp_type == "Phase":
-            return 1j * image.phase * weight
+        if self.roi_inner_outer == 'Inner':
+            if comp_type == "Real":
+                return image.real[self.region[0]: self.region[1], self.region[2]: self.region[3]] * weight
+            elif comp_type == "Imaginary":
+                return 1j * image.imaginary[self.region[0]: self.region[1], self.region[2]: self.region[3]] * weight
+            elif comp_type == "Magnitude":
+                return image.magnitude[self.region[0]: self.region[1], self.region[2]: self.region[3]] * weight
+            elif comp_type == "Phase":
+                return 1j * image.phase[self.region[0]: self.region[1], self.region[2]: self.region[3]] * weight
+
 
     def _combine_images(self, components):
         print('len comp:', len(components))
@@ -226,7 +228,7 @@ class Mixer:
             self.output_port.clear()
         self.output_port.addItem(pg.ImageItem(image))
 
-    def reconstruct_new_image_using_real_imaginary(self, *images, region: tuple):
+    def reconstruct_new_image_using_real_imaginary(self, *images):
         print('reconstruct_new_image_using_real_imaginary')
 
         weights = [self.window.findChild(QSlider, f'image_{i}_weight_slider').value() / 100 for i in range(1, 5)]
@@ -247,7 +249,7 @@ class Mixer:
 
         self._add_image_to_output_port(reconstructed_image)
 
-    def reconstruct_new_image_using_magnitude_phase(self, *images, region: tuple):
+    def reconstruct_new_image_using_magnitude_phase(self, *images):
         weights = [self.window.findChild(QSlider, f'image_{i}_weight_slider').value() / 100 for i in range(1, 5)]
 
         components = [
