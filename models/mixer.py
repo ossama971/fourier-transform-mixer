@@ -191,6 +191,12 @@ class Mixer:
         else:
             self.reconstruct_new_image_using_magnitude_phase(*images_to_mix)
 
+    def _zero_out_subarray(self, arr):
+        new_arr = arr.copy()
+        r1, r2, r3, r4 = self.region
+        new_arr[r1:r2, r3:r4] = 0
+        return new_arr
+
     def _get_weighted_component(self, image, comp_type, weight):
         if self.roi_inner_outer == 'Inner':
             if comp_type == "Real":
@@ -201,7 +207,15 @@ class Mixer:
                 return image.magnitude[self.region[0]: self.region[1], self.region[2]: self.region[3]] * weight
             elif comp_type == "Phase":
                 return 1j * image.phase[self.region[0]: self.region[1], self.region[2]: self.region[3]] * weight
-
+        else:
+            if comp_type == "Real":
+                return self._zero_out_subarray(image.real) * weight
+            elif comp_type == "Imaginary":
+                return 1j * self._zero_out_subarray(image.imaginary) * weight
+            elif comp_type == "Magnitude":
+                return self._zero_out_subarray(image.magnitude) * weight
+            elif comp_type == "Phase":
+                return 1j * self._zero_out_subarray(image.phase) * weight
 
     def _combine_images(self, components):
         print('len comp:', len(components))
